@@ -26,53 +26,53 @@ import java.util.Optional;
 public class UserController {
     private final UserService service;
 
-    @SuppressWarnings("static-access")
-    @PostMapping("/save")
-    public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
-        return ResponseEntity.ok(service.save(dto));
-    }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) throws SQLException {
-        Messenger messenger = service.login(dto);
-        return ResponseEntity.ok(messenger);
-    }
-
-    @GetMapping("/existsEmail")
-    public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
-        log.info("Parameter information of existsEmail: " + email);
-        Boolean flag = service.existsByEmail(email);
-        log.info("existsEmail : " + email);
-        return ResponseEntity.ok(flag);
-    }
-
-
-    @GetMapping("/detail")
-    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
-        log.info("Parameter information of findById: " + id);
-        return ResponseEntity.ok(service.findById(id));
-    }
-
-    @PutMapping("/modify")
-    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.modify(dto));
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.deleteById(id));
-    }
-
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.existsById(id));
-    }
-
-    @GetMapping("/logout")
-    public ResponseEntity<Boolean> logout(@RequestHeader("authorization") String accessToken) {
-        var flag = service.logout(accessToken);
-        return ResponseEntity.ok(flag);
-    }
+//    @SuppressWarnings("static-access")
+//    @PostMapping("/save")
+//    public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
+//        log.info("Parameters received through controller: " + dto);
+//        return ResponseEntity.ok(service.save(dto));
+//    }
+//
+//    @PostMapping(path = "/login")
+//    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) throws SQLException {
+//        Messenger messenger = service.login(dto);
+//        return ResponseEntity.ok(messenger);
+//    }
+//
+//    @GetMapping("/existsEmail")
+//    public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
+//        log.info("Parameter information of existsEmail: " + email);
+//        Boolean flag = service.existsByEmail(email);
+//        log.info("existsEmail : " + email);
+//        return ResponseEntity.ok(flag);
+//    }
+//
+//
+//    @GetMapping("/detail")
+//    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
+//        log.info("Parameter information of findById: " + id);
+//        return ResponseEntity.ok(service.findById(id));
+//    }
+//
+//    @PutMapping("/modify")
+//    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
+//        return ResponseEntity.ok(service.modify(dto));
+//    }
+//
+//    @DeleteMapping("/delete")
+//    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
+//        return ResponseEntity.ok(service.deleteById(id));
+//    }
+//
+//    @GetMapping("/exists")
+//    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
+//        return ResponseEntity.ok(service.existsById(id));
+//    }
+//
+//    @GetMapping("/logout")
+//    public ResponseEntity<Boolean> logout(@RequestHeader("authorization") String accessToken) {
+//        var flag = service.logout(accessToken);
+//        return ResponseEntity.ok(flag);
+//    }
 
 }
