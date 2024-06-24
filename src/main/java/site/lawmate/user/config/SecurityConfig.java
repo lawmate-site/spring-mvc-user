@@ -3,40 +3,41 @@ package site.lawmate.user.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.web.reactive.function.client.WebClient;
+import site.lawmate.user.enums.Role;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 
-    private final WebClient userInfoClient;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
-                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/", "/auth/**", "/public/**").permitAll()
+                .csrf(
+                        (csrfConfig) -> csrfConfig.disable()
+                )
+                .headers(
+                        (headerConfig) -> headerConfig.frameOptions(
+                                frameOptionsConfig -> frameOptionsConfig.disable()
+                        )
+                )
+                .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
+                        .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
+                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login/*", "/logout/*", "/payment/*", "/product/*", "/questions/**", "/issues/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
-        ;
-        return http.build();
-    }
+                .logout(
+                        (logoutConfig) -> logoutConfig.logoutSuccessUrl("/")
+                )
 
-    @Bean
-    public OpaqueTokenIntrospector introspector() {
-        return new GoogleOpaqueTokenIntrospector(userInfoClient);
+                .oauth2Login(Customizer.withDefaults());
+
+        return http.build();
     }
 }
