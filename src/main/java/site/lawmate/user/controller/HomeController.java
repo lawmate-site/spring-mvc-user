@@ -19,18 +19,19 @@ public class HomeController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
         return "Welcome to user server! " + Date;
     }
 
-    @GetMapping("/google")
+    @GetMapping("/oauth")
     public String auth(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if (user != null) {
             model.addAttribute("userName", user.getName());
+            return "Hello, " + user.getName() + "!";
+        } else if (user == null) {
+            return "Hello, Guest!";
         }
-        return "google";
+        return "Hello, Guest!";
     }
-
-
 }
