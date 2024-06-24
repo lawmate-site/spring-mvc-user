@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.domain.dto.UserInfo;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.repository.UserRepository;
 
@@ -42,19 +41,6 @@ public class JwtProvider {
                 .claim("email", dto.getEmail())
                 .compact();
         log.info("Generated token after login : " + token);
-        return token;
-    }
-
-    public String createOAuthToken(UserInfo info) {
-        String token = Jwts.builder()
-                .issuer(issuer)
-                .signWith(secretKey)
-                .expiration(Date.from(expiredDate))
-                .subject("user")
-                .claim("sub", info.sub())
-                .claim("email", info.email())
-                .compact();
-        log.info("Generated token after OAuth login : " + token);
         return token;
     }
 
