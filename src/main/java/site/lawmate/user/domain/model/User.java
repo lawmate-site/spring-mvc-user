@@ -1,8 +1,10 @@
 package site.lawmate.user.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Component;
+import site.lawmate.user.enums.Role;
 
 import java.util.List;
 
@@ -17,8 +19,37 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String name;
+
+    @NotNull
+    private String picture;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Role role;
+    @Builder
+    public User(String name, String email, String picture, Role role) {
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
+
     private String phone;
     private String age;
     private String sex;
