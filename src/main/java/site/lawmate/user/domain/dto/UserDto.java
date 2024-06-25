@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import site.lawmate.user.enums.Role;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +16,8 @@ public class UserDto {
     private Long id;
     private String email;
     private String name;
+    private String picture;
+    private Role role;
     private String phone;
     private String age;
     private String sex;
