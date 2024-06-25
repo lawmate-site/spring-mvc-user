@@ -20,6 +20,7 @@ public class Question extends BaseEntity {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String law;
     private String title;
     private String content;
 
@@ -30,16 +31,18 @@ public class Question extends BaseEntity {
 
 
     @Builder(builderMethodName = "builder")
-    public Question(Long id, String title, String content) {
+    public Question(Long id, String law, String title, String content) {
         this.id = id;
+        this.law = law;
         this.title = title;
         this.content = content;
     }
 
-    public static Question of(String title, String content) {
+    public static Question of(String title, String content, String law) {
         Question question = new Question();
         question.title = title;
         question.content = content;
+        question.law = law;
         return question;
     }
 }
