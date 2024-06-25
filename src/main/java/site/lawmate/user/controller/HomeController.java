@@ -19,7 +19,7 @@ public class HomeController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home() {
         return "Welcome to user server! " + Date;
     }
 
