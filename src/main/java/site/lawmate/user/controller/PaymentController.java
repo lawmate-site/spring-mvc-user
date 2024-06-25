@@ -23,7 +23,7 @@ import java.io.IOException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(path = "/api/payment")
+@RequestMapping(path = "/payment")
 @Slf4j
 @Controller
 @RequiredArgsConstructor

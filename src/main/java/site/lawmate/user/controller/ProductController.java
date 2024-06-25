@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(path = "/api/product")
+@RequestMapping(path = "/product")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
