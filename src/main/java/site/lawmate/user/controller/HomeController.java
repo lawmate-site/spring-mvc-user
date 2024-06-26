@@ -23,7 +23,7 @@ public class HomeController {
         return "Welcome to user server! " + Date;
     }
 
-    @GetMapping("/oauth")
+    @GetMapping("/auth")
     public String auth(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if (user != null) {
