@@ -25,13 +25,13 @@ public class HomeController {
 
     @GetMapping("/auth")
     public String auth(Model model) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("userName", user.getName());
-            return "Hello, " + user.getName() + "!";
-        } else if (user == null) {
-            return "Hello, Guest!";
-        }
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        if (user != null) {
+//            model.addAttribute("userName", user.getName());
+//            return "Hello, " + user.getName() + "!";
+//        } else if (user == null) {
+//            return "Hello, Guest!";
+//        }
         return "Hello, Guest!";
     }
 }
