@@ -1,4 +1,4 @@
-package site.lawmate.user.config;
+package site.lawmate.user.service.impl;
 
 
 import jakarta.servlet.http.HttpSession;
@@ -20,7 +20,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class OAuthServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
     private final HttpSession httpSession;

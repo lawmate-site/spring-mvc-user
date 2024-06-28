@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Getter
 public class QuestionDto {
     private Long id;
+    private String law;
     private String title;
     private String content;
     private Long writerId;
-    private Long boardId;
     private String regDate;
     private String modDate;
 }

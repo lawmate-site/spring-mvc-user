@@ -4,9 +4,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.QuestionDto;
+import site.lawmate.user.domain.dto.UserDto;
+import site.lawmate.user.service.QuestionService;
+import site.lawmate.user.service.impl.QuestionServiceImpl;
+
+import java.sql.SQLException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -18,5 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(responseCode = "404", description = "Customer not found")
 })
 public class QuestionController {
+    private final QuestionService service;
+
+    @SuppressWarnings("static-access")
+    @PostMapping("/save")
+    public ResponseEntity<Messenger> save(@RequestBody QuestionDto dto) throws SQLException {
+        log.info("Parameters received through controller: " + dto);
+        return ResponseEntity.ok(service.save(dto));
+    }
 
 }
