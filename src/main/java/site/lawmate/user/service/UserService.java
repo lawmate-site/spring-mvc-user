@@ -13,9 +13,8 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .age(dto.getAge())
-                .sex(dto.getSex())
+                .gender(dto.getGender())
                 .point(dto.getPoint())
-                .password(dto.getPassword())
                 .build();
     }
 
@@ -26,9 +25,8 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
                 .name(user.getName())
                 .phone(user.getPhone())
                 .age(user.getAge())
-                .sex(user.getSex())
+                .gender(user.getGender())
                 .point(user.getPoint())
-                .password(user.getPassword())
                 .build();
     }
 
@@ -36,7 +34,7 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
 
     Boolean logout(String accessToken);
 
-    Messenger modify(UserDto user);
+    Messenger update(UserDto user);
 
     User autoRegister();
 

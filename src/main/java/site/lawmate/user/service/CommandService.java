@@ -5,7 +5,7 @@ import site.lawmate.user.component.Messenger;
 public interface CommandService<T> {
     Messenger save(T t);
 
-    Messenger deleteById(Long id);
+    Messenger delete(Long id);
 
-    Messenger modify(T t);
+    Messenger update(T t);
 }

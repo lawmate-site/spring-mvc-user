@@ -37,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public Messenger deleteById(Long id) {
+    public Messenger delete(Long id) {
         return null;
     }
 
@@ -63,7 +63,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public Messenger modify(PaymentDto dto) {
+    public Messenger update(PaymentDto dto) {
         return null;
     }
 

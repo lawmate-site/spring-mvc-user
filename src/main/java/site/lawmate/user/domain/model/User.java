@@ -21,6 +21,9 @@ public class User extends BaseEntity {
     private Long id;
 
     @NotNull
+    private String username;
+
+    @NotNull
     private String email;
 
     @NotNull
@@ -33,8 +36,9 @@ public class User extends BaseEntity {
     @NotNull
     private Role role;
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String username, String email, String picture, Role role) {
         this.name = name;
+        this.username = username;
         this.email = email;
         this.picture = picture;
         this.role = role;
@@ -52,10 +56,9 @@ public class User extends BaseEntity {
 
     private String phone;
     private String age;
-    private String sex;
+    private String gender;
     private String token;
     private Long point;
-    private String password;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
@@ -67,5 +70,3 @@ public class User extends BaseEntity {
     private List<Issue> issues;
 
 }
-
-

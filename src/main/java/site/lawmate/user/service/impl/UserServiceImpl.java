@@ -21,10 +21,12 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
-    }
+    } //Spring Security에서 username
+
     private final UserRepository repository;
     private final JwtProvider jwtProvider;
 
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Messenger deleteById(Long id) {
+    public Messenger delete(Long id) {
         repository.deleteById(id);
         return Messenger.builder()
                 .message(repository.findById(id).isPresent() ? "FAILURE" : "SUCCESS")
@@ -70,16 +72,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Messenger modify(UserDto dto) {
+    public Messenger update(UserDto dto) {
         Optional<User> optionalUser = repository.findById(dto.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             User modifyUser = user.toBuilder()
-                    .password(dto.getPassword())
                     .phone(dto.getPhone())
-                    .email(dto.getEmail())
+                    .picture(dto.getPicture())
                     .age(dto.getAge())
-                    .sex(dto.getSex())
+                    .gender(dto.getGender())
                     .build();
             Long updateUserId = repository.save(modifyUser).getId();
 
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService {
         log.info("Parameters received through login service" + dto);
         User user = repository.findByEmail(dto.getEmail()).get();
         String accessToken = jwtProvider.createToken(entityToDto(user));
-        boolean flag = user.getPassword().equals(dto.getPassword());
+        boolean flag = user.getEmail().equals(dto.getEmail());
         if (flag) {
             repository.modifyTokenById(user.getId(), accessToken);
         }
