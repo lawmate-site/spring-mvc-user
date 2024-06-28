@@ -28,16 +28,6 @@ public class UserController {
     private final UserService service;
     private final HttpSession httpSession;
 
-    @GetMapping("/auth")
-    public String saveOrUpdate(Model model) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("userName", user.getName());
-            return "Hello, " + user.getName() + "!";
-        }
-        return "Hello, Guest!";
-    }
-
     @GetMapping("/existsEmail")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
         log.info("Parameter information of existsEmail: " + email);
@@ -46,26 +36,25 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.existsById(id));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
+    public ResponseEntity<Optional<UserDto>> findById(@PathVariable("id") Long id) {
         log.info("Parameter information of findById: " + id);
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PutMapping("/update")
     public ResponseEntity<Messenger> update(@RequestBody UserDto dto) {
-        log.info("dd"+dto);
         return ResponseEntity.ok(service.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Messenger> delete(@RequestParam("id") Long id) {
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
         return ResponseEntity.ok(service.delete(id));
-    }
-
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.existsById(id));
     }
 
     @GetMapping("/logout")

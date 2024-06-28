@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
-                        .requestMatchers("/auth").authenticated()
+                        .requestMatchers("/login/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .logout(
