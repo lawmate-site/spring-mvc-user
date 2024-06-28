@@ -2,11 +2,14 @@ package site.lawmate.user.controller;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.SessionUser;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
@@ -23,18 +26,16 @@ import java.util.Optional;
 })
 public class UserController {
     private final UserService service;
+    private final HttpSession httpSession;
 
-    @SuppressWarnings("static-access")
-    @PostMapping("/save")
-    public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
-        return ResponseEntity.ok(service.save(dto));
-    }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) throws SQLException {
-        Messenger messenger = service.login(dto);
-        return ResponseEntity.ok(messenger);
+    @GetMapping("/auth")
+    public String saveOrUpdate(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+            return "Hello, " + user.getName() + "!";
+        }
+        return "Hello, Guest!";
     }
 
     @GetMapping("/existsEmail")
@@ -45,20 +46,21 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
         log.info("Parameter information of findById: " + id);
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @PutMapping("/modify")
-    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.modify(dto));
+    @PutMapping("/update")
+    public ResponseEntity<Messenger> update(@RequestBody UserDto dto) {
+        log.info("dd"+dto);
+        return ResponseEntity.ok(service.update(dto));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.deleteById(id));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Messenger> delete(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.delete(id));
     }
 
     @GetMapping("/exists")
