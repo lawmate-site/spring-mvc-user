@@ -1,4 +1,4 @@
--- INSERT INTO users (id, reg_date, point, mod_date, age, email, name, phone, picture, sex, role) VALUES
+-- INSERT INTO users (id, reg_date, point, mod_date, age, email, name, phone, picture, gender, role) VALUES
 -- (1, '2021-04-19 10:26:10.693216', 200, '2024-06-26 17:24:35.571283', 36, 'john1@gmail.com', 'John Doe', '010-4567-3465', 'https://example.com/picture1.jpg', '남자', 'GUEST'),
 -- (2, '2022-01-10 10:19:28.368723', 1104, '2023-12-18 20:15:03.478295', 40, 'parkjungkwan2@gmail.com', '박정관', '010-6872-2354', null, '남자', 'USER'),
 -- (3, '2021-05-15 08:12:18.785216', 300, '2023-11-26 12:45:10.571283', 35, 'alice3@gmail.com', 'Alice Smith', '010-1234-5678', 'https://example.com/picture3.jpg', '여자', 'GUEST'),
