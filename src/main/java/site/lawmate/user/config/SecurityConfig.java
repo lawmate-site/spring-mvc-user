@@ -8,13 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import site.lawmate.user.enums.Role;
+import site.lawmate.user.service.impl.OAuthServiceImpl;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuthServiceImpl oAuthServiceImpl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,9 +29,8 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-//                        .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
-//                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login/*", "/logout/*", "/payment/*", "/product/*", "/questions/**", "/issues/**").permitAll()
-//                                .anyRequest().authenticated()
+                        .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
+                        .requestMatchers("/auth").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .logout(
