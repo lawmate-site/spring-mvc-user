@@ -13,6 +13,7 @@ import site.lawmate.user.service.QuestionService;
 import site.lawmate.user.service.impl.QuestionServiceImpl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -32,5 +33,36 @@ public class QuestionController {
         log.info("Parameters received through controller: " + dto);
         return ResponseEntity.ok(service.save(dto));
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<QuestionDto>> findAll(Long id) throws SQLException {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<Messenger> deleteById(@PathVariable("id") Long id) throws SQLException {
+        return ResponseEntity.ok(service.delete(id));
+    }
+
+    @PatchMapping(path = "/update")
+    public ResponseEntity<Messenger> update(@RequestBody QuestionDto dto){
+        return ResponseEntity.ok(service.update(dto));
+    }
+
+    @GetMapping(path = "/detail")
+    public ResponseEntity<Messenger> findById(@RequestParam Long id) throws SQLException {
+        return ResponseEntity.ok(service.delete(id));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Messenger> count() throws SQLException {
+        return ResponseEntity.ok(service.count());
+    }
+
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsById(@RequestParam Long id) throws SQLException {
+        return ResponseEntity.ok(service.existsById(id));
+    }
+
 
 }

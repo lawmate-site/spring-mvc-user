@@ -2,6 +2,7 @@ package site.lawmate.user.domain.dto;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
+import site.lawmate.user.domain.model.User;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class QuestionDto {
     private String law;
     private String title;
     private String content;
-    private Long writerId;
+    private User writer;
     private String regDate;
     private String modDate;
 }

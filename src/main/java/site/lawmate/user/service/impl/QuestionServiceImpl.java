@@ -17,6 +17,7 @@ import site.lawmate.user.service.QuestionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -31,44 +32,100 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     @Override
     public Messenger save(QuestionDto dto) {
-        log.info("Parameters received through question service:" + dto);
-        Question question = dtoToEntity(dto);
+        log.info("Parameters received through save service: " + dto);
+        User writer = userRepository.findById(dto.getWriter().getId())
+                .orElseThrow(() -> new IllegalArgumentException("User " + dto.getWriter() + " not found."));
+        Question question = Question.builder()
+                .law(dto.getLaw())
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .writer(writer)
+                .build();
         Question savedQuestion = questionRepository.save(question);
         return Messenger.builder()
                 .message(questionRepository.existsById(savedQuestion.getId()) ? "SUCCESS" : "FAILURE")
                 .build();
     }
 
+    @Transactional
     @Override
     public Messenger delete(Long id) {
         questionRepository.deleteById(id);
         return Messenger.builder()
-                .message(questionRepository.findById(id).isPresent() ? "" : "")
+                .message(
+                        Stream.of(id)
+                                .filter(i -> existsById(i))
+                                .peek(i -> questionRepository.deleteById(i))
+                                .map(i -> "SUCCESS")
+                                .findAny()
+                                .orElseGet(() -> "FAILURE")
+                )
                 .build();
     }
 
     @Override
-    public Messenger update(QuestionDto questionDto) {
-        return null;
+    public Messenger update(QuestionDto dto) {
+        Optional<Question> question = questionRepository.findById(dto.getId());
+        if (question.isPresent()) {
+            QuestionDto updateQuestion = dto.toBuilder()
+                    .law(dto.getLaw())
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .build();
+            questionRepository.save(dtoToEntity(updateQuestion));
+
+            return Messenger.builder()
+                    .message("SUCCESS")
+                    .build();
+        } else {
+            log.warn("Question id '{}' not found.", dto.getId());
+        }
+        Question ent = questionRepository.save(dtoToEntity(dto));
+        return Messenger.builder()
+                .message((ent instanceof Question) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public List<QuestionDto> findAll() {
-        return null;
+        return questionRepository.findAllByOrderByIdDesc().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
     public Optional<QuestionDto> findById(Long id) {
-        return Optional.empty();
+        return questionRepository.findById(id).map(i -> entityToDto(i));
     }
 
     @Override
     public Messenger count() {
-        return null;
+        return Messenger.builder()
+                .message(questionRepository.count() + "")
+                .build();
     }
 
     @Override
     public boolean existsById(Long id) {
-        return false;
+        return questionRepository.existsById(id);
+    }
+
+    @Override
+    public Question dtoToEntity(QuestionDto dto) {
+        return Question.builder()
+                .law(dto.getLaw())
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .writer(dto.getWriter())
+                .build();
+    }
+
+    @Override
+    public QuestionDto entityToDto(Question question) {
+        return QuestionDto.builder()
+                .id(question.getId())
+                .law(question.getLaw())
+                .title(question.getTitle())
+                .content(question.getContent())
+                .writer(question.getWriter())
+                .build();
     }
 }

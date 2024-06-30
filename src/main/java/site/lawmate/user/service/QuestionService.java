@@ -7,6 +7,7 @@ public interface QuestionService extends CommandService<QuestionDto>, QueryServi
 
     default Question dtoToEntity(QuestionDto dto) {
         return Question.builder()
+                .law(dto.getLaw())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .build();
@@ -15,8 +16,10 @@ public interface QuestionService extends CommandService<QuestionDto>, QueryServi
     default QuestionDto entityToDto(Question question) {
         return QuestionDto.builder()
                 .id(question.getId())
+                .law(question.getLaw())
                 .title(question.getTitle())
                 .content(question.getContent())
+                .writer(question.getWriter())
                 .build();
     }
 }

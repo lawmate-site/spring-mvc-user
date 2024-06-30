@@ -10,7 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "questions")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Builder
 @ToString(exclude = {"id"})
@@ -31,18 +30,20 @@ public class Question extends BaseEntity {
 
 
     @Builder(builderMethodName = "builder")
-    public Question(Long id, String law, String title, String content) {
+    public Question(Long id, String law, String title, String content, User writer) {
         this.id = id;
         this.law = law;
         this.title = title;
         this.content = content;
+        this.writer = writer;
     }
 
-    public static Question of(String title, String content, String law) {
+    public static Question of(String law, String title, String content, User writer) {
         Question question = new Question();
+        question.law = law;
         question.title = title;
         question.content = content;
-        question.law = law;
+        question.writer = writer;
         return question;
     }
 }
