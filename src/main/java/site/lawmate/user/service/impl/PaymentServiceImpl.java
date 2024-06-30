@@ -27,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Messenger save(PaymentDto dto) {
         log.info("Parameters received through payment service: " + dto);
+
         site.lawmate.user.domain.model.Payment payment = dtoToEntity(dto);
         site.lawmate.user.domain.model.Payment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
