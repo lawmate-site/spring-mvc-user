@@ -49,7 +49,10 @@ public class WebSecurity {
         http.authorizeHttpRequests((authz) -> authz
                                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/users/**", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/users/**", "GET")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/users/**", "DELETE")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/users/**", "PUT")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 //                        .requestMatchers("/**").access(this::hasIpAddress)
                                 .requestMatchers("/**").access(
