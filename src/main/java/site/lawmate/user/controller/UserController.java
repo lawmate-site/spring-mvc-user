@@ -2,18 +2,14 @@ package site.lawmate.user.controller;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.SessionUser;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -26,9 +22,8 @@ import java.util.Optional;
 })
 public class UserController {
     private final UserService service;
-    private final HttpSession httpSession;
 
-    @GetMapping("/existsEmail")
+    @GetMapping("/searchEmail")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
         log.info("Parameter information of existsEmail: " + email);
         Boolean flag = service.existsByEmail(email);
@@ -36,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
-    @GetMapping("/exists")
+    @GetMapping("/search")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
         return ResponseEntity.ok(service.existsById(id));
     }
@@ -47,7 +42,7 @@ public class UserController {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/{id}")
     public ResponseEntity<Messenger> update(@RequestBody UserDto dto) {
         return ResponseEntity.ok(service.update(dto));
     }

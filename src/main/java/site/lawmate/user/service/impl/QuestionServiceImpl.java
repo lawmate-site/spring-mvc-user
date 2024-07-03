@@ -2,6 +2,7 @@ package site.lawmate.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,7 @@ import site.lawmate.user.service.QuestionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -56,34 +58,33 @@ public class QuestionServiceImpl implements QuestionService {
                         Stream.of(id)
                                 .filter(i -> existsById(i))
                                 .peek(i -> questionRepository.deleteById(i))
-                                .map(i -> "SUCCESS")
+                                .map(i -> "FAILURE")
                                 .findAny()
-                                .orElseGet(() -> "FAILURE")
+                                .orElseGet(() -> "SUCCESS")
                 )
                 .build();
     }
 
+    @Transactional
     @Override
     public Messenger update(QuestionDto dto) {
-        Optional<Question> question = questionRepository.findById(dto.getId());
-        if (question.isPresent()) {
-            QuestionDto updateQuestion = dto.toBuilder()
+        Optional<Question> optionalQuestion = questionRepository.findById(dto.getId());
+        if (optionalQuestion.isPresent()) {
+            Question question = optionalQuestion.get();
+            Question updateQuestion = question.toBuilder()
                     .law(dto.getLaw())
                     .title(dto.getTitle())
                     .content(dto.getContent())
                     .build();
-            questionRepository.save(dtoToEntity(updateQuestion));
+            Long updateQuestionId = questionRepository.save(updateQuestion).getId();
 
             return Messenger.builder()
-                    .message("SUCCESS")
+                    .message("SUCCESS ID is " + updateQuestionId)
                     .build();
         } else {
-            log.warn("Question id '{}' not found.", dto.getId());
+            return Messenger.builder()
+                    .message("FAILURE").build();
         }
-        Question ent = questionRepository.save(dtoToEntity(dto));
-        return Messenger.builder()
-                .message((ent instanceof Question) ? "SUCCESS" : "FAILURE")
-                .build();
     }
 
     @Override
@@ -106,6 +107,21 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean existsById(Long id) {
         return questionRepository.existsById(id);
+    }
+
+    @Override
+    public List<QuestionDto> findByTitleAndContent(String keyword) {
+        Specification<Question> spec = (root, query, criteriaBuilder) -> {
+            String likePattern = "%" + keyword + "%";
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("title"), likePattern),
+                    criteriaBuilder.like(root.get("content"), likePattern)
+            );
+        };
+
+        return questionRepository.findAll(spec).stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

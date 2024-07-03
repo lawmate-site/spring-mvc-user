@@ -1,7 +1,10 @@
 package site.lawmate.user.service;
 
+import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.QuestionDto;
 import site.lawmate.user.domain.model.Question;
+
+import java.util.List;
 
 public interface QuestionService extends CommandService<QuestionDto>, QueryService<QuestionDto> {
 
@@ -22,4 +25,8 @@ public interface QuestionService extends CommandService<QuestionDto>, QueryServi
                 .writer(question.getWriter())
                 .build();
     }
+
+    Messenger update(QuestionDto dto);
+
+    List<QuestionDto> findByTitleAndContent(String keyword);
 }

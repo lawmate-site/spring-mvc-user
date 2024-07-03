@@ -26,4 +26,6 @@ public class UserDto {
     private String modDate;
     private String token;
     private Long point;
+
+//    private String password;
 }

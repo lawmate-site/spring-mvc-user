@@ -11,7 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "questions")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @ToString(exclude = {"id"})
 @Slf4j
 public class Question extends BaseEntity {

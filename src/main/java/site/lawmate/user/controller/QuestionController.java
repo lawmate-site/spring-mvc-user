@@ -14,6 +14,7 @@ import site.lawmate.user.service.impl.QuestionServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -34,33 +35,33 @@ public class QuestionController {
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<QuestionDto>> findAll(Long id) throws SQLException {
+    @GetMapping("/all")
+    public ResponseEntity<List<QuestionDto>> findAll() throws SQLException {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @DeleteMapping(path = "/delete")
-    public ResponseEntity<Messenger> deleteById(@PathVariable("id") Long id) throws SQLException {
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) throws SQLException {
         return ResponseEntity.ok(service.delete(id));
     }
 
-    @PatchMapping(path = "/update")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Messenger> update(@RequestBody QuestionDto dto){
         return ResponseEntity.ok(service.update(dto));
     }
 
-    @GetMapping(path = "/detail")
-    public ResponseEntity<Messenger> findById(@RequestParam Long id) throws SQLException {
-        return ResponseEntity.ok(service.delete(id));
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Optional<QuestionDto>> findById(@PathVariable("id") Long id) throws SQLException {
+        return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/count")
+    @GetMapping("/total")
     public ResponseEntity<Messenger> count() throws SQLException {
         return ResponseEntity.ok(service.count());
     }
 
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsById(@RequestParam Long id) throws SQLException {
+    @GetMapping("/search")
+    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) throws SQLException {
         return ResponseEntity.ok(service.existsById(id));
     }
 

@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
             Long updateUserId = repository.save(modifyUser).getId();
 
             return Messenger.builder()
-                    .message("SUCCESS ID: " + updateUserId)
+                    .message("SUCCESS ID is " + updateUserId)
                     .build();
         } else {
             return Messenger.builder()
@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
         User user = repository.findByEmail(dto.getEmail()).get();
         String accessToken = jwtProvider.createToken(entityToDto(user));
         boolean flag = user.getEmail().equals(dto.getEmail());
+//        boolean flag = user.getPassword().equals(dto.getPassword());
         if (flag) {
             repository.modifyTokenById(user.getId(), accessToken);
         }

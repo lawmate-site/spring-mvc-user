@@ -35,6 +35,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
+
     @Builder
     public User(String name, String username, String email, String picture, Role role) {
         this.name = name;
@@ -60,13 +61,15 @@ public class User extends BaseEntity {
     private String token;
     private Long point;
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Issue> issues;
+
+//    private String password;
 
 }
