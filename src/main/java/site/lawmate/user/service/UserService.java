@@ -1,11 +1,10 @@
 package site.lawmate.user.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.dto.UserDto;
 
-public interface UserService extends UserDetailsService, CommandService<UserDto>, QueryService<UserDto> {
+public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
 
     default User dtoToEntity(UserDto dto) {
         return User.builder()
