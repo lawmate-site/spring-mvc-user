@@ -10,7 +10,6 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,20 +23,7 @@ import java.util.Optional;
 public class UserController {
     private final UserService service;
 
-    @SuppressWarnings("static-access")
-    @PostMapping("/save")
-    public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
-        return ResponseEntity.ok(service.save(dto));
-    }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) throws SQLException {
-        Messenger messenger = service.login(dto);
-        return ResponseEntity.ok(messenger);
-    }
-
-    @GetMapping("/existsEmail")
+    @GetMapping("/searchEmail")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
         log.info("Parameter information of existsEmail: " + email);
         Boolean flag = service.existsByEmail(email);
@@ -45,25 +31,25 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<Optional<UserDto>> findById(@RequestParam("id") Long id) {
+    @GetMapping("/search")
+    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.existsById(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UserDto>> findById(@PathVariable("id") Long id) {
         log.info("Parameter information of findById: " + id);
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @PutMapping("/modify")
-    public ResponseEntity<Messenger> modify(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.modify(dto));
+    @PutMapping("/{id}")
+    public ResponseEntity<Messenger> update(@RequestBody UserDto dto) {
+        return ResponseEntity.ok(service.update(dto));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.deleteById(id));
-    }
-
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
-        return ResponseEntity.ok(service.existsById(id));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.delete(id));
     }
 
     @GetMapping("/logout")

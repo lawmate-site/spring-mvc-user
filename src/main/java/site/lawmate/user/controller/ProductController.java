@@ -35,13 +35,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.save(dto));
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<ProductDto>> findById(@RequestParam("id") Long id) {
         log.info("Parameter information of findById: " + id);
         return ResponseEntity.ok(productService.findById(id));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     public ResponseEntity<List<ProductDto>> findAll(Long id) throws SQLException {
         return ResponseEntity.ok(productService.findAll());
     }

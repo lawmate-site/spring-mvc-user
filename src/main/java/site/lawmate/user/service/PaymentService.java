@@ -18,6 +18,8 @@ public interface PaymentService extends CommandService<PaymentDto>, QueryService
         return site.lawmate.user.domain.model.Payment.builder()
                 .paymentUid(UUID.randomUUID().toString())
                 .status(dto.getStatus())
+                .buyer(dto.getBuyer())
+                .product(dto.getProduct())
                 .build();
     }
 
@@ -25,6 +27,8 @@ public interface PaymentService extends CommandService<PaymentDto>, QueryService
         return PaymentDto.builder()
                 .paymentUid(UUID.randomUUID().toString())
                 .status(pay.getStatus())
+                .buyer(pay.getBuyer())
+                .product(pay.getProduct())
                 .build();
     }
 

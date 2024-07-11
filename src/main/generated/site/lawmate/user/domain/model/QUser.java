@@ -26,6 +26,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
+    public final StringPath gender = createString("gender");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final ListPath<Issue, QIssue> issues = this.<Issue, QIssue>createList("issues", Issue.class, QIssue.class, PathInits.DIRECT2);
@@ -34,8 +36,6 @@ public class QUser extends EntityPathBase<User> {
     public final DateTimePath<java.time.LocalDateTime> modDate = _super.modDate;
 
     public final StringPath name = createString("name");
-
-    public final StringPath password = createString("password");
 
     public final ListPath<Payment, QPayment> payments = this.<Payment, QPayment>createList("payments", Payment.class, QPayment.class, PathInits.DIRECT2);
 
@@ -52,9 +52,9 @@ public class QUser extends EntityPathBase<User> {
 
     public final EnumPath<site.lawmate.user.enums.Role> role = createEnum("role", site.lawmate.user.enums.Role.class);
 
-    public final StringPath sex = createString("sex");
-
     public final StringPath token = createString("token");
+
+    public final StringPath username = createString("username");
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));

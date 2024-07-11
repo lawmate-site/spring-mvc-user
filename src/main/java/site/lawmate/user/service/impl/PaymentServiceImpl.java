@@ -27,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Messenger save(PaymentDto dto) {
         log.info("Parameters received through payment service: " + dto);
+
         site.lawmate.user.domain.model.Payment payment = dtoToEntity(dto);
         site.lawmate.user.domain.model.Payment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
@@ -37,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public Messenger deleteById(Long id) {
+    public Messenger delete(Long id) {
         return null;
     }
 
@@ -63,7 +64,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public Messenger modify(PaymentDto dto) {
+    public Messenger update(PaymentDto dto) {
         return null;
     }
 

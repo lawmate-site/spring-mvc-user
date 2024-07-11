@@ -7,6 +7,7 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.model.Product;
 import site.lawmate.user.domain.dto.ProductDto;
 import site.lawmate.user.repository.ProductRepository;
+import site.lawmate.user.service.CommandService;
 import site.lawmate.user.service.ProductService;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Messenger deleteById(Long id) {
+    public Messenger delete(Long id) {
         productRepository.deleteById(id);
         return Messenger.builder()
                 .message(productRepository.findById(id).isPresent() ? "FAILURE" : "SUCCESS")
@@ -37,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Messenger modify(ProductDto productDto) {
+    public Messenger update(ProductDto productDto) {
         Optional<Product> optionalProduct = productRepository.findById(productDto.getId());
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();

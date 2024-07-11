@@ -14,8 +14,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByOrderByIdDesc();
 
-    @Query("select a from users a where a.email = :email")
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByUsername(String username);
+
 
     @Modifying
     @Query("update users a set a.token = :token where a.id = :id")

@@ -14,16 +14,18 @@ import site.lawmate.user.enums.Role;
 @Builder
 public class UserDto {
     private Long id;
+    private String username;
     private String email;
     private String name;
     private String picture;
     private Role role;
     private String phone;
     private String age;
-    private String sex;
+    private String gender;
     private String regDate;
     private String modDate;
     private String token;
     private Long point;
-    private String password;
+
+//    private String password;
 }

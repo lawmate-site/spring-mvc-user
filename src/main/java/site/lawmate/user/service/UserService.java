@@ -1,11 +1,10 @@
 package site.lawmate.user.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.dto.UserDto;
 
-public interface UserService extends UserDetailsService, CommandService<UserDto>, QueryService<UserDto> {
+public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
 
     default User dtoToEntity(UserDto dto) {
         return User.builder()
@@ -13,9 +12,8 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .age(dto.getAge())
-                .sex(dto.getSex())
+                .gender(dto.getGender())
                 .point(dto.getPoint())
-                .password(dto.getPassword())
                 .build();
     }
 
@@ -26,9 +24,8 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
                 .name(user.getName())
                 .phone(user.getPhone())
                 .age(user.getAge())
-                .sex(user.getSex())
+                .gender(user.getGender())
                 .point(user.getPoint())
-                .password(user.getPassword())
                 .build();
     }
 
@@ -36,7 +33,7 @@ public interface UserService extends UserDetailsService, CommandService<UserDto>
 
     Boolean logout(String accessToken);
 
-    Messenger modify(UserDto user);
+    Messenger update(UserDto user);
 
     User autoRegister();
 

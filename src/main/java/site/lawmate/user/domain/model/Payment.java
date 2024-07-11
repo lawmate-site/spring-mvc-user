@@ -22,10 +22,12 @@ public class Payment extends BaseEntity {
     private PaymentStatus status;
 
     @Builder
-    public Payment(Long id, String paymentUid, PaymentStatus status) {
+    public Payment(Long id, String paymentUid, PaymentStatus status, User buyer, Product product) {
         this.id = id;
         this.paymentUid = paymentUid;
         this.status = status;
+        this.buyer = buyer;
+        this.product = product;
     }
 
     @ManyToOne
