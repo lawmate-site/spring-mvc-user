@@ -28,9 +28,9 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-                        .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
-                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login/*", "/logout/*", "/payment/*", "/product/*", "/questions/**", "/issues/**").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/question/new", "/issue/save").hasRole(Role.USER.name())
+//                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login/*", "/logout/*", "/payment/*", "/product/*", "/questions/**", "/issues/**").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .logout(
                         (logoutConfig) -> logoutConfig.logoutSuccessUrl("/")
