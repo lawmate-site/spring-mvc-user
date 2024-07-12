@@ -14,16 +14,11 @@ import java.util.Date;
 public class HomeController {
 
     public String Date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String home(Model model) {
-//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-//        if (user != null) {
-//            model.addAttribute("userName", user.getName());
-//            return "Hello, " + user.getName() + "!";
-//        }
+    public String home() {
         return "Welcome to user server! " + Date;
     }
-
 }
