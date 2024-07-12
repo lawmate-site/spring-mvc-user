@@ -104,6 +104,11 @@
 -- INSERT INTO products (id, price, item_name) VALUES (2, '300', '영상 상담 30분');
 -- INSERT INTO products (id, price, item_name) VALUES (3, '500', '대면 상담 30분');
 --
+-- INSERT INTO payments (id, payment_uid, status, buyer_id, product_id) VALUES (1, '5438934598725629','OK', 1, 1);
+-- INSERT INTO payments (id, payment_uid, status, buyer_id, product_id) VALUES (2, '7983402601556431','OK', 2, 2);
+-- INSERT INTO payments (id, payment_uid, status, buyer_id, product_id) VALUES (3, '8945912306185873','OK', 3, 1);
+-- INSERT INTO payments (id, payment_uid, status, buyer_id, product_id) VALUES (4, '9089198655125763','OK', 4, 3);
+--
 -- INSERT INTO questions (id, law, title, content) VALUES
 -- (1, '형법', '절도죄로 고소하려고 해요', '안녕하세요. 최근 제 가게에서 절도 사건이 있었는데, 이걸로 고소하려고 합니다. 절도죄 관련 법률이랑 고소장 작성 방법, 그리고 절도죄에 대한 처벌이 어떻게 되는지 알고 싶어요.'),
 -- (2, '형법', '폭행죄로 고소당했어요', '안녕하세요. 얼마 전 주차 문제로 이웃과 다툼이 있었는데, 폭행죄로 고소를 당했어요. 폭행죄가 정확히 뭔지, 처벌은 어떻게 되는지, 그리고 지금 상황에서 제가 할 수 있는 대응 방법을 알고 싶어요.'),
