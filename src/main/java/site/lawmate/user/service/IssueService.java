@@ -1,5 +1,6 @@
 package site.lawmate.user.service;
 
+import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
 import site.lawmate.user.domain.model.Issue;
 
@@ -22,4 +23,7 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
                 .attachment(issue.getAttachment())
                 .build();
     }
+
+    Messenger update(IssueDto dto);
+    
 }
