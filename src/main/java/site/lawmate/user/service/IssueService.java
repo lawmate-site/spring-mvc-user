@@ -2,7 +2,7 @@ package site.lawmate.user.service;
 
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
-import site.lawmate.user.domain.model.Issue;
+import site.lawmate.user.domain.model.mysql.Issue;
 
 public interface IssueService extends CommandService<IssueDto>, QueryService<IssueDto> {
     default Issue dtoToEntity(IssueDto dto) {

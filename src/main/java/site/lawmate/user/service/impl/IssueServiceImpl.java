@@ -1,7 +1,6 @@
 package site.lawmate.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
-import site.lawmate.user.domain.model.Issue;
-import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.model.mysql.Issue;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.repository.IssueRepository;
 import site.lawmate.user.repository.UserRepository;
 import site.lawmate.user.service.IssueService;

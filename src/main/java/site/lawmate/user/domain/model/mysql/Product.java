@@ -1,8 +1,7 @@
-package site.lawmate.user.domain.model;
+package site.lawmate.user.domain.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.*;
-import site.lawmate.user.domain.model.Payment;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package site.lawmate.user.service;
 
-import site.lawmate.user.domain.model.Product;
+import site.lawmate.user.domain.model.mysql.Product;
 import site.lawmate.user.domain.dto.ProductDto;
 
 public interface ProductService extends CommandService<ProductDto>, QueryService<ProductDto> {
