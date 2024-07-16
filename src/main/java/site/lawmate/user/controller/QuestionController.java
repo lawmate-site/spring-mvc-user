@@ -31,7 +31,7 @@ public class QuestionController {
     @SuppressWarnings("static-access")
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody QuestionDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
+        log.info("question save 파라미터: {} ", dto);
         return ResponseEntity.ok(service.save(dto));
     }
 

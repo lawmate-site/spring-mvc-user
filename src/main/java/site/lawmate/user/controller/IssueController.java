@@ -29,37 +29,43 @@ public class IssueController {
     @SuppressWarnings("static-access")
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody IssueDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
+        log.info("issue save 파라미터: {} ", dto);
         return ResponseEntity.ok(service.save(dto));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<IssueDto>> findAll() throws SQLException {
+        log.info("findAll issue 진입 성공");
         return ResponseEntity.ok(service.findAll());
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) throws SQLException {
+        log.info("delete issue id: {} ", id);
         return ResponseEntity.ok(service.delete(id));
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<Messenger> update(@RequestBody IssueDto dto){
+        log.info("update issue 진입 성공: {} ", dto.toString());
         return ResponseEntity.ok(service.update(dto));
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<IssueDto>> findById(@PathVariable("id") Long id) throws SQLException {
+        log.info("issue 정보 조회 진입 id: {} ", id);
         return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping("/total")
     public ResponseEntity<Messenger> count() throws SQLException {
+        log.info("issue count 진입 성공");
         return ResponseEntity.ok(service.count());
     }
 
     @GetMapping("/search")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) throws SQLException {
+        log.info("issue search 진입 성공 id: {} ", id);
         return ResponseEntity.ok(service.existsById(id));
     }
 }
