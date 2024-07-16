@@ -7,7 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.repository.UserRepository;
 
 import java.util.Optional;

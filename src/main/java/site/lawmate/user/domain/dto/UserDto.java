@@ -27,5 +27,11 @@ public class UserDto {
     private String token;
     private Long point;
 
+    public UserDto(Long id, String email, String name) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+    }
+
 //    private String password;
 }

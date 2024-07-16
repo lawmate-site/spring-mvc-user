@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model;
+package site.lawmate.user.domain.model.mysql;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +35,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
+    private String phone;
+    private String age;
+    private String gender;
+    private String token;
+    private Long point;
 
     @Builder
     public User(String name, String username, String email, String picture, Role role) {
@@ -54,12 +59,6 @@ public class User extends BaseEntity {
     public String getRoleKey() {
         return this.role.getKey();
     }
-
-    private String phone;
-    private String age;
-    private String gender;
-    private String token;
-    private Long point;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
