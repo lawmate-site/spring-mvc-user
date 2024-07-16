@@ -1,7 +1,7 @@
 package site.lawmate.user.service;
 
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.domain.dto.UserDto;
 
 public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
@@ -14,6 +14,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .age(dto.getAge())
                 .gender(dto.getGender())
                 .point(dto.getPoint())
+//                .password(dto.getPassword())
                 .build();
     }
 
@@ -26,10 +27,11 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .age(user.getAge())
                 .gender(user.getGender())
                 .point(user.getPoint())
+//                .password(user.getPassword())
                 .build();
     }
 
-    Messenger login(UserDto param);
+//    Messenger login(UserDto param);
 
     Boolean logout(String accessToken);
 
