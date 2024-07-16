@@ -8,7 +8,7 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.component.JwtProvider;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.repository.UserRepository;
-import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.service.UserService;
 
 import java.util.List;
@@ -26,11 +26,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Messenger save(UserDto dto) {
-        log.info("Parameters received through save service: " + dto);
-        User user = dtoToEntity(dto);
-        User savedUser = repository.save(user);
+        log.info("service 진입 파라미터: {} ", dto);
+        var result = repository.save(dtoToEntity(dto));
+        log.info("service 결과: {} ", result);
+
         return Messenger.builder()
-                .message(repository.existsById(savedUser.getId()) ? "SUCCESS" : "FAILURE")
+                .message("SUCCESS")
                 .build();
     }
 
@@ -87,23 +88,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional
-    @Override
-    public Messenger login(UserDto dto) {
-        log.info("Parameters received through login service" + dto);
-        User user = repository.findByEmail(dto.getEmail()).get();
-        String accessToken = jwtProvider.createToken(entityToDto(user));
-        boolean flag = user.getEmail().equals(dto.getEmail());
-//        boolean flag = user.getPassword().equals(dto.getPassword());
-        if (flag) {
-            repository.modifyTokenById(user.getId(), accessToken);
-        }
-        jwtProvider.printPayload(accessToken);
-        return Messenger.builder()
-                .message(flag ? "SUCCESS" : "FAILURE")
-                .accessToken(flag ? accessToken : "None")
-                .build();
-    }
 
     @Transactional
     @Override

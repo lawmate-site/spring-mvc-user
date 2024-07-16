@@ -7,9 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.QuestionDto;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -22,6 +25,16 @@ import java.util.Optional;
 })
 public class UserController {
     private final UserService service;
+
+    @PostMapping("/oauth2/{registration}")
+    public ResponseEntity<Messenger> oauthLogin(@RequestBody UserDto dto) {
+        return ResponseEntity.ok(service.save(dto));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> findAll() throws SQLException {
+        return ResponseEntity.ok(service.findAll());
+    }
 
     @GetMapping("/searchEmail")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
