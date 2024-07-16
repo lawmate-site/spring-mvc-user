@@ -8,7 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.PaymentCallbackRequest;
+import site.lawmate.user.domain.model.mysql.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.PaymentDto;
 import site.lawmate.user.repository.PaymentRepository;
 import site.lawmate.user.service.PaymentService;
@@ -28,8 +28,8 @@ public class PaymentServiceImpl implements PaymentService {
     public Messenger save(PaymentDto dto) {
         log.info("Parameters received through payment service: " + dto);
 
-        site.lawmate.user.domain.model.Payment payment = dtoToEntity(dto);
-        site.lawmate.user.domain.model.Payment savedPayment = payRepository.save(payment);
+        site.lawmate.user.domain.model.mysql.Payment payment = dtoToEntity(dto);
+        site.lawmate.user.domain.model.mysql.Payment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
         return Messenger.builder()
                 .message(exists ? "SUCCESS" : "FAILURE")
@@ -39,22 +39,32 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public Messenger delete(Long id) {
-        return null;
+        payRepository.deleteById(id);
+        return Messenger.builder()
+                .message(payRepository.existsById(id) ? "FAILURE" : "SUCCESS")
+                .build();
     }
 
     @Override
     public List<PaymentDto> findAll() {
-        return null;
+        return payRepository.findAll().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
     public Optional<PaymentDto> findById(Long id) {
-        return Optional.empty();
+        return payRepository.findById(id).map(i -> entityToDto(i));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PaymentDto> getPaymentsByBuyerId(Long buyerId) {
+        return payRepository.findByBuyerId(buyerId);
     }
 
     @Override
     public Messenger count() {
-        return null;
+        return Messenger.builder()
+                .message(payRepository.count() + "").build();
     }
 
     @Override
@@ -65,7 +75,18 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public Messenger update(PaymentDto dto) {
-        return null;
+        Optional<site.lawmate.user.domain.model.mysql.Payment> payment = payRepository.findById(dto.getId());
+        if (payment.isPresent()) {
+            site.lawmate.user.domain.model.mysql.Payment pay = payment.get();
+            pay.setStatus(dto.getStatus());
+            pay.setBuyer(dto.getBuyer());
+            pay.setProduct(dto.getProduct());
+            payRepository.save(pay);
+            return Messenger.builder().message("SUCCESS").build();
+        }
+        return Messenger.builder()
+                .message("FAILURE")
+                .build();
     }
 
     @Override

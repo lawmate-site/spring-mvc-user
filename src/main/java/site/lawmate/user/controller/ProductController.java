@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.PaymentDto;
 import site.lawmate.user.domain.dto.ProductDto;
 import site.lawmate.user.service.ProductService;
 
@@ -31,19 +32,32 @@ public class ProductController {
 
     @PostMapping("/save")
     public ResponseEntity<Messenger> saveProduct(@RequestBody ProductDto dto) {
-        log.info("Parameters received through controller" + dto);
+        log.info("product save 파라미터: {}", dto);
         return ResponseEntity.ok(productService.save(dto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<ProductDto>> findById(@RequestParam("id") Long id) {
-        log.info("Parameter information of findById: " + id);
+        log.info("product 정보 조회 진입 id: {} ", id);
         return ResponseEntity.ok(productService.findById(id));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductDto>> findAll(Long id) throws SQLException {
+        log.info("findAll product 진입 성공");
         return ResponseEntity.ok(productService.findAll());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Messenger> update(@RequestBody ProductDto dto) {
+        log.info("update product 진입 성공: {} ", dto.toString());
+        return ResponseEntity.ok(productService.update(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
+        log.info("delete product id: {} ", id);
+        return ResponseEntity.ok(productService.delete(id));
     }
 
 }

@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.domain.model.Product;
-import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.model.mysql.Product;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.enums.PaymentStatus;
 
 @NoArgsConstructor
@@ -18,8 +18,17 @@ import site.lawmate.user.enums.PaymentStatus;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PaymentDto {
+    private Long id;
+    private String lawyerId;
     private String paymentUid;
     private PaymentStatus status;
     private User buyer;
     private Product product;
+
+    public PaymentDto(Long id, String lawyerId, String paymentUid, PaymentStatus status) {
+        this.id = id;
+        this.lawyerId = lawyerId;
+        this.paymentUid = paymentUid;
+        this.status = status;
+    }
 }

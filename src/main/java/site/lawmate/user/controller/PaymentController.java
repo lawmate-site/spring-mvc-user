@@ -20,6 +20,8 @@ import site.lawmate.user.domain.dto.PaymentDto;
 import site.lawmate.user.service.PaymentService;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -48,13 +50,13 @@ public class PaymentController {
 
     @PostMapping("/save")
     public ResponseEntity<Messenger> savePayment(@RequestBody PaymentDto dto) {
-        log.info("Parameters received through controller" + dto);
+        log.info("payment save 파라미터: {} ", dto);
         return ResponseEntity.ok(paymentService.save(dto));
     }
 
     @PostMapping("/status")
     public ResponseEntity<String> paymentStatus(@RequestBody PaymentStatus status) {
-        log.info("Parameters received through controller" + status);
+        log.info("payment status: {}", status);
         if (status == PaymentStatus.OK) {
             // 결제 성공 시 처리할 로직 작성
             return new ResponseEntity<>("Payment SUCCESS", HttpStatus.OK);
@@ -69,6 +71,36 @@ public class PaymentController {
         log.info("imp_uid={}", imp_uid);
         IamportResponse<Payment> response = iamportClient.paymentByImpUid(imp_uid);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<PaymentDto>> findById(@PathVariable("id") Long id) {
+        log.info("payment 정보 조회 진입 id: {} ", id);
+        return ResponseEntity.ok(paymentService.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Messenger> update(@RequestBody PaymentDto dto) {
+        log.info("update payment 진입 성공: {} ", dto.toString());
+        return ResponseEntity.ok(paymentService.update(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
+        log.info("delete payment id: {} ", id);
+        return ResponseEntity.ok(paymentService.delete(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<PaymentDto>> findAll() {
+        log.info("findAll payment 진입 성공");
+        return ResponseEntity.ok(paymentService.findAll());
+    }
+
+    @GetMapping(path = "/buyer/{buyerId}")
+    public ResponseEntity<List<PaymentDto>> findByBuyerId(@PathVariable("buyerId") Long buyerId) {
+        log.info("payment 정보 조회 진입 유저 id: {} ", buyerId);
+        return ResponseEntity.ok(paymentService.getPaymentsByBuyerId(buyerId));
     }
 
 }

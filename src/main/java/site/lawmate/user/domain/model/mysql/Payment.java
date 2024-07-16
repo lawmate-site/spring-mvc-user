@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model;
+package site.lawmate.user.domain.model.mysql;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -18,12 +18,16 @@ public class Payment extends BaseEntity {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String lawyerId;
     private String paymentUid; //결제 고유 번호
+
+    @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
     @Builder
-    public Payment(Long id, String paymentUid, PaymentStatus status, User buyer, Product product) {
+    public Payment(Long id, String lawyerId, String paymentUid, PaymentStatus status, User buyer, Product product) {
         this.id = id;
+        this.lawyerId = lawyerId;
         this.paymentUid = paymentUid;
         this.status = status;
         this.buyer = buyer;
