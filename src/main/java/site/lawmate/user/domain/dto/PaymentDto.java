@@ -19,16 +19,10 @@ import site.lawmate.user.enums.PaymentStatus;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PaymentDto {
     private Long id;
-    private String lawyerId;
+    private Long lawyer;
     private String paymentUid;
     private PaymentStatus status;
     private User buyer;
     private Product product;
-
-    public PaymentDto(Long id, String lawyerId, String paymentUid, PaymentStatus status) {
-        this.id = id;
-        this.lawyerId = lawyerId;
-        this.paymentUid = paymentUid;
-        this.status = status;
-    }
+    private Long amount;
 }

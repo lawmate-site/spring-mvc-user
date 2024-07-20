@@ -15,9 +15,10 @@ import java.util.List;
 @Getter
 @Builder(toBuilder = true)
 @ToString(exclude = {"id"})
+@Setter
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -28,6 +29,8 @@ public class User extends BaseEntity {
 
     @NotNull
     private String name;
+
+    private String password;
 
     @NotNull
     private String picture;
@@ -69,6 +72,5 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Issue> issues;
 
-//    private String password;
 
 }

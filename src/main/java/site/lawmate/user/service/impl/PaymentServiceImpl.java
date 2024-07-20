@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.model.mysql.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.PaymentDto;
+import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.repository.PaymentRepository;
+import site.lawmate.user.repository.UserRepository;
 import site.lawmate.user.service.PaymentService;
 
 import java.util.List;
@@ -22,14 +24,23 @@ import java.util.Optional;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository payRepository;
     private final IamportClient iamportClient;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
     public Messenger save(PaymentDto dto) {
-        log.info("Parameters received through payment service: " + dto);
+        log.info("Payment service 진입 성공: {}", dto);
 
         site.lawmate.user.domain.model.mysql.Payment payment = dtoToEntity(dto);
         site.lawmate.user.domain.model.mysql.Payment savedPayment = payRepository.save(payment);
+        User user = payment.getBuyer();
+
+        if (payment.getProduct() != null) {
+            user.setPoint(user.getPoint() - payment.getAmount());
+        } else {
+            user.setPoint(user.getPoint() + payment.getAmount());
+        }
+
         boolean exists = payRepository.existsById(savedPayment.getId());
         return Messenger.builder()
                 .message(exists ? "SUCCESS" : "FAILURE")

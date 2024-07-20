@@ -18,20 +18,22 @@ public class Payment extends BaseEntity {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String lawyerId;
+    private Long lawyer;
     private String paymentUid; //결제 고유 번호
+    private Long amount;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
     @Builder
-    public Payment(Long id, String lawyerId, String paymentUid, PaymentStatus status, User buyer, Product product) {
+    public Payment(Long id, Long lawyer, String paymentUid, PaymentStatus status, User buyer, Product product, Long amount) {
         this.id = id;
-        this.lawyerId = lawyerId;
+        this.lawyer = lawyer;
         this.paymentUid = paymentUid;
         this.status = status;
         this.buyer = buyer;
         this.product = product;
+        this.amount = amount;
     }
 
     @ManyToOne
