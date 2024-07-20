@@ -14,7 +14,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .age(dto.getAge())
                 .gender(dto.getGender())
                 .point(dto.getPoint())
-//                .password(dto.getPassword())
+                .password(dto.getPassword())
                 .build();
     }
 
@@ -27,11 +27,11 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .age(user.getAge())
                 .gender(user.getGender())
                 .point(user.getPoint())
-//                .password(user.getPassword())
+                .password(user.getPassword())
                 .build();
     }
 
-//    Messenger login(UserDto param);
+    Messenger login(UserDto param);
 
     Boolean logout(String accessToken);
 
@@ -40,5 +40,7 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     User autoRegister();
 
     Boolean existsByEmail(String email);
+
+    Messenger modifyPoint(UserDto user);
 
 }

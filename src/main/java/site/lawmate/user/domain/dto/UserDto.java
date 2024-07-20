@@ -17,6 +17,7 @@ public class UserDto {
     private String username;
     private String email;
     private String name;
+    private String password;
     private String picture;
     private Role role;
     private String phone;
@@ -33,5 +34,4 @@ public class UserDto {
         this.name = name;
     }
 
-//    private String password;
 }
