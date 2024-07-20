@@ -23,15 +23,43 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final JwtProvider jwtProvider;
 
+    //    @Transactional
+//    @Override
+//    public Messenger save(UserDto dto) {
+//        log.info("service 진입 파라미터: {} ", dto);
+//        var result = repository.save(dtoToEntity(dto));
+//        log.info("service 결과: {} ", result);
+//
+//        return Messenger.builder()
+//                .message("SUCCESS")
+//                .build();
+//    }
     @Transactional
     @Override
     public Messenger save(UserDto dto) {
         log.info("service 진입 파라미터: {} ", dto);
-        var result = repository.save(dtoToEntity(dto));
-        log.info("service 결과: {} ", result);
-
+        User user = dtoToEntity(dto);
+        User savedUser = repository.save(user);
         return Messenger.builder()
-                .message("SUCCESS")
+                .message(repository.existsById(savedUser.getId()) ? "SUCCESS" : "FAILURE")
+                .build();
+    }
+
+    @Transactional
+    @Override
+    public Messenger login(UserDto dto) {
+        log.info("Parameters received through login service" + dto);
+        User user = repository.findByEmail(dto.getEmail()).get();
+        String accessToken = jwtProvider.createToken(entityToDto(user));
+//        boolean flag = user.getEmail().equals(dto.getEmail());
+        boolean flag = user.getPassword().equals(dto.getPassword());
+        if (flag) {
+            repository.modifyTokenById(user.getId(), accessToken);
+        }
+        jwtProvider.printPayload(accessToken);
+        return Messenger.builder()
+                .message(flag ? "SUCCESS" : "FAILURE")
+                .accessToken(flag ? accessToken : "None")
                 .build();
     }
 
@@ -112,4 +140,33 @@ public class UserServiceImpl implements UserService {
         return count == 1;
     }
 
+    @Transactional
+    @Override
+    public Messenger modifyPoint(UserDto dto) {
+        log.info("service 진입 파라미터: {} ", dto);
+
+        if (dto.getId() != null) {
+            Optional<User> optionalUser = repository.findById(dto.getId());
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                User modifyUser = user.toBuilder()
+                        .point(dto.getPoint())
+                        .build();
+                Long updateUserId = repository.save(modifyUser).getId();
+
+                return Messenger.builder()
+                        .message("SUCCESS ID: " + updateUserId)
+                        .build();
+            } else {
+                return Messenger.builder()
+                        .message("USER NOT FOUND")
+                        .build();
+            }
+        } else {
+            return Messenger.builder()
+                    .message("FAILURE. USER ID IS NULL")
+                    .build();
+        }
+
+    }
 }

@@ -71,4 +71,9 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
+    @PutMapping("/modifyPoint")
+    public ResponseEntity<Messenger> modifyPoint(@RequestBody UserDto dto) {
+        return ResponseEntity.ok(service.modifyPoint(dto));
+    }
+
 }
