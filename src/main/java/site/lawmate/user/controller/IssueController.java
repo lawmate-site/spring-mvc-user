@@ -24,48 +24,56 @@ import java.util.Optional;
         @ApiResponse(responseCode = "404", description = "Customer not found")
 })
 public class IssueController {
-    private final IssueService service;
+    private final IssueService issueService;
+
+//    @GetMapping(path = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+//    public SseEmitter subscribe(){
+//        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+//        issueService.addEmitter(emitter);
+//        issueService.sendEvents();
+//        return emitter;
+//    }
 
     @SuppressWarnings("static-access")
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody IssueDto dto) throws SQLException {
         log.info("issue save 파라미터: {} ", dto);
-        return ResponseEntity.ok(service.save(dto));
+        return ResponseEntity.ok(issueService.save(dto));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<IssueDto>> findAll() throws SQLException {
         log.info("findAll issue 진입 성공");
-        return ResponseEntity.ok(service.findAll());
+        return ResponseEntity.ok(issueService.findAll());
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) throws SQLException {
         log.info("delete issue id: {} ", id);
-        return ResponseEntity.ok(service.delete(id));
+        return ResponseEntity.ok(issueService.delete(id));
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Messenger> update(@RequestBody IssueDto dto){
+    public ResponseEntity<Messenger> update(@RequestBody IssueDto dto) {
         log.info("update issue 진입 성공: {} ", dto.toString());
-        return ResponseEntity.ok(service.update(dto));
+        return ResponseEntity.ok(issueService.update(dto));
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<IssueDto>> findById(@PathVariable("id") Long id) throws SQLException {
         log.info("issue 정보 조회 진입 id: {} ", id);
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(issueService.findById(id));
     }
 
     @GetMapping("/total")
     public ResponseEntity<Messenger> count() throws SQLException {
         log.info("issue count 진입 성공");
-        return ResponseEntity.ok(service.count());
+        return ResponseEntity.ok(issueService.count());
     }
 
     @GetMapping("/search")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) throws SQLException {
         log.info("issue search 진입 성공 id: {} ", id);
-        return ResponseEntity.ok(service.existsById(id));
+        return ResponseEntity.ok(issueService.existsById(id));
     }
 }

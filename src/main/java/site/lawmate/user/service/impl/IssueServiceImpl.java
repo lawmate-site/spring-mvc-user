@@ -7,16 +7,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
-import site.lawmate.user.domain.model.mysql.Issue;
-import site.lawmate.user.domain.model.mysql.User;
+import site.lawmate.user.domain.model.Issue;
+import site.lawmate.user.domain.model.User;
 import site.lawmate.user.repository.IssueRepository;
 import site.lawmate.user.repository.UserRepository;
 import site.lawmate.user.service.IssueService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -28,7 +30,7 @@ import java.util.stream.Stream;
 public class IssueServiceImpl implements IssueService {
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
-
+    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
     @Transactional
     @Override
     public Messenger save(IssueDto dto) {

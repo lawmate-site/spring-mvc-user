@@ -1,9 +1,8 @@
 package site.lawmate.user.service;
 
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
-import site.lawmate.user.domain.model.mysql.Issue;
+import site.lawmate.user.domain.model.Issue;
 
 public interface IssueService extends CommandService<IssueDto>, QueryService<IssueDto> {
     default Issue dtoToEntity(IssueDto dto) {
@@ -28,6 +27,4 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
     Messenger update(IssueDto dto);
 
     Messenger count();
-
-//    SseEmitter createEmitter(Long id);
 }

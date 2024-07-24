@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model.mysql;
+package site.lawmate.user.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
