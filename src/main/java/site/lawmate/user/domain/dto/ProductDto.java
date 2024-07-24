@@ -18,4 +18,5 @@ public class ProductDto {
     private Long id;
     private String itemName;
     private Long price;
+    private String image;
 }

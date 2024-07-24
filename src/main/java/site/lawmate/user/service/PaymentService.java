@@ -2,7 +2,7 @@ package site.lawmate.user.service;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
-import site.lawmate.user.domain.model.mysql.PaymentCallbackRequest;
+import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.PaymentDto;
 
 import java.util.List;
@@ -17,8 +17,8 @@ public interface PaymentService extends CommandService<PaymentDto>, QueryService
 
     public List<PaymentDto> getPaymentsByBuyerId(Long buyer);
 
-    default site.lawmate.user.domain.model.mysql.Payment dtoToEntity(PaymentDto dto) {
-        return site.lawmate.user.domain.model.mysql.Payment.builder()
+    default site.lawmate.user.domain.model.Payment dtoToEntity(PaymentDto dto) {
+        return site.lawmate.user.domain.model.Payment.builder()
                 .paymentUid(UUID.randomUUID().toString())
                 .status(dto.getStatus())
                 .buyer(dto.getBuyer())
@@ -26,7 +26,7 @@ public interface PaymentService extends CommandService<PaymentDto>, QueryService
                 .build();
     }
 
-    default PaymentDto entityToDto(site.lawmate.user.domain.model.mysql.Payment pay) {
+    default PaymentDto entityToDto(site.lawmate.user.domain.model.Payment pay) {
         return PaymentDto.builder()
                 .id(pay.getId())
                 .paymentUid(UUID.randomUUID().toString())

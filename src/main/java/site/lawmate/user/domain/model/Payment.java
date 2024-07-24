@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model.mysql;
+package site.lawmate.user.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.enums.PaymentStatus;
+import site.lawmate.user.domain.vo.PaymentStatus;
 
 @Entity(name = "payments")
 @Getter

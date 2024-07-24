@@ -7,9 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.domain.model.mysql.Product;
-import site.lawmate.user.domain.model.mysql.User;
-import site.lawmate.user.enums.PaymentStatus;
+import site.lawmate.user.domain.model.Product;
+import site.lawmate.user.domain.model.User;
+import site.lawmate.user.domain.vo.PaymentStatus;
 
 @NoArgsConstructor
 @AllArgsConstructor

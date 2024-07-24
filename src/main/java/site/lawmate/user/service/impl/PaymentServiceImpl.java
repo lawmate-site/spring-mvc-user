@@ -8,9 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.mysql.PaymentCallbackRequest;
+import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.PaymentDto;
-import site.lawmate.user.domain.model.mysql.User;
 import site.lawmate.user.repository.PaymentRepository;
 import site.lawmate.user.repository.UserRepository;
 import site.lawmate.user.service.PaymentService;
@@ -31,16 +30,8 @@ public class PaymentServiceImpl implements PaymentService {
     public Messenger save(PaymentDto dto) {
         log.info("Payment service 진입 성공: {}", dto);
 
-        site.lawmate.user.domain.model.mysql.Payment payment = dtoToEntity(dto);
-        site.lawmate.user.domain.model.mysql.Payment savedPayment = payRepository.save(payment);
-        User user = payment.getBuyer();
-
-        if (payment.getProduct() != null) {
-            user.setPoint(user.getPoint() - payment.getAmount());
-        } else {
-            user.setPoint(user.getPoint() + payment.getAmount());
-        }
-
+        site.lawmate.user.domain.model.Payment payment = dtoToEntity(dto);
+        site.lawmate.user.domain.model.Payment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
         return Messenger.builder()
                 .message(exists ? "SUCCESS" : "FAILURE")
@@ -86,9 +77,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     @Override
     public Messenger update(PaymentDto dto) {
-        Optional<site.lawmate.user.domain.model.mysql.Payment> payment = payRepository.findById(dto.getId());
+        Optional<site.lawmate.user.domain.model.Payment> payment = payRepository.findById(dto.getId());
         if (payment.isPresent()) {
-            site.lawmate.user.domain.model.mysql.Payment pay = payment.get();
+            site.lawmate.user.domain.model.Payment pay = payment.get();
             pay.setStatus(dto.getStatus());
             pay.setBuyer(dto.getBuyer());
             pay.setProduct(dto.getProduct());

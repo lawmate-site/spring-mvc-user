@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.enums.PaymentStatus;
+import site.lawmate.user.domain.vo.PaymentStatus;
 import site.lawmate.user.domain.dto.PaymentDto;
 import site.lawmate.user.service.PaymentService;
 

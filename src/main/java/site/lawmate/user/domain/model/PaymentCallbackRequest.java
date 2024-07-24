@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model.mysql;
+package site.lawmate.user.domain.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

@@ -1,4 +1,4 @@
-package site.lawmate.user.enums;
+package site.lawmate.user.domain.vo;
 
 public enum PaymentStatus {
     OK,

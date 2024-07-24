@@ -1,4 +1,4 @@
-package site.lawmate.user.domain.model.mysql;
+package site.lawmate.user.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +19,7 @@ public class Product {
     private Long id;
     private String itemName;
     private Long price;
+    private String image;
 
     @OneToMany(mappedBy = "product")
     private List<Payment> payments;
