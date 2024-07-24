@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.enums.Role;
+import site.lawmate.user.domain.vo.Role;
 
 @NoArgsConstructor
 @AllArgsConstructor

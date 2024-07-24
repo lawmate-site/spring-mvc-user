@@ -26,11 +26,6 @@ import java.util.Optional;
 public class UserController {
     private final UserService service;
 
-    @PostMapping("/oauth2/{registration}")
-    public ResponseEntity<Messenger> oauthLogin(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.save(dto));
-    }
-
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> findAll() throws SQLException {
         return ResponseEntity.ok(service.findAll());

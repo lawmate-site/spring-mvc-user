@@ -1,7 +1,7 @@
 package site.lawmate.user.domain.dto;
 
 import lombok.Getter;
-import site.lawmate.user.domain.model.mysql.User;
+import site.lawmate.user.domain.model.User;
 
 import java.io.Serializable;
 

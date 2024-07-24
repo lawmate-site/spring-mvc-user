@@ -5,10 +5,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.component.JwtProvider;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.repository.UserRepository;
-import site.lawmate.user.domain.model.mysql.User;
+import site.lawmate.user.domain.model.User;
 import site.lawmate.user.service.UserService;
 
 import java.util.List;
@@ -21,19 +20,8 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
-    private final JwtProvider jwtProvider;
+//    private final JwtProvider jwtProvider;
 
-    //    @Transactional
-//    @Override
-//    public Messenger save(UserDto dto) {
-//        log.info("service 진입 파라미터: {} ", dto);
-//        var result = repository.save(dtoToEntity(dto));
-//        log.info("service 결과: {} ", result);
-//
-//        return Messenger.builder()
-//                .message("SUCCESS")
-//                .build();
-//    }
     @Transactional
     @Override
     public Messenger save(UserDto dto) {
@@ -45,23 +33,27 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    @Transactional
     @Override
-    public Messenger login(UserDto dto) {
-        log.info("Parameters received through login service" + dto);
-        User user = repository.findByEmail(dto.getEmail()).get();
-        String accessToken = jwtProvider.createToken(entityToDto(user));
-//        boolean flag = user.getEmail().equals(dto.getEmail());
-        boolean flag = user.getPassword().equals(dto.getPassword());
-        if (flag) {
-            repository.modifyTokenById(user.getId(), accessToken);
-        }
-        jwtProvider.printPayload(accessToken);
-        return Messenger.builder()
-                .message(flag ? "SUCCESS" : "FAILURE")
-                .accessToken(flag ? accessToken : "None")
-                .build();
+    public Messenger login(UserDto param) {
+        return null;
     }
+//    @Transactional
+//    @Override
+//    public Messenger login(UserDto dto) {
+//        log.info("Parameters received through login service" + dto);
+//        User user = repository.findByEmail(dto.getEmail()).get();
+//        String accessToken = jwtProvider.createToken(entityToDto(user));
+////        boolean flag = user.getEmail().equals(dto.getEmail());
+//        boolean flag = user.getPassword().equals(dto.getPassword());
+//        if (flag) {
+//            repository.modifyTokenById(user.getId(), accessToken);
+//        }
+//        jwtProvider.printPayload(accessToken);
+//        return Messenger.builder()
+//                .message(flag ? "SUCCESS" : "FAILURE")
+//                .accessToken(flag ? accessToken : "None")
+//                .build();
+//    }
 
     @Transactional
     @Override
@@ -116,14 +108,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    @Transactional
     @Override
     public Boolean logout(String accessToken) {
-        Long id = jwtProvider.getPayload(accessToken.substring(7)).get("id", Long.class);
-        repository.modifyTokenById(id, "");
-        return repository.findById(id).get().getToken().isEmpty();
+        return null;
     }
+
+//    @Transactional
+//    @Override
+//    public Boolean logout(String accessToken) {
+//        Long id = jwtProvider.getPayload(accessToken.substring(7)).get("id", Long.class);
+//        repository.modifyTokenById(id, "");
+//        return repository.findById(id).get().getToken().isEmpty();
+//    }
 
     @Override
     public User autoRegister() {

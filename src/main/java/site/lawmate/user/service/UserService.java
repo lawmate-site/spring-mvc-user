@@ -1,7 +1,7 @@
 package site.lawmate.user.service;
 
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.mysql.User;
+import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.dto.UserDto;
 
 public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
@@ -10,11 +10,11 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
         return User.builder()
                 .email(dto.getEmail())
                 .name(dto.getName())
+                .password(dto.getPassword())
                 .phone(dto.getPhone())
                 .age(dto.getAge())
                 .gender(dto.getGender())
-                .point(dto.getPoint())
-                .password(dto.getPassword())
+                .picture(dto.getPicture())
                 .build();
     }
 
@@ -23,11 +23,12 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
+                .password(user.getPassword())
                 .phone(user.getPhone())
                 .age(user.getAge())
                 .gender(user.getGender())
                 .point(user.getPoint())
-                .password(user.getPassword())
+                .picture(user.getPicture())
                 .build();
     }
 

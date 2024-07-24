@@ -5,17 +5,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.QuestionDto;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
-
+import site.lawmate.user.domain.dto.LoginDTO;
+import site.lawmate.user.domain.model.PrincipalUserDetails;
+import site.lawmate.user.domain.model.UserModel;
+import site.lawmate.user.domain.vo.Registration;
+import site.lawmate.user.domain.vo.Role;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
 @ApiResponses(value = {
@@ -38,5 +42,16 @@ public class AuthController {
         Messenger messenger = service.login(dto);
         return ResponseEntity.ok(messenger);
     }
+//
+//    @PostMapping("/login/local")
+//    public Mono<PrincipalUserDetails> login(@RequestBody LoginDTO dto) {
+//        log.info("login: {}", dto);
+//        return Mono.just(new PrincipalUserDetails(UserModel.builder()
+//                .id("aaa1234")
+//                .email(dto.getEmail())
+//                .roles(List.of(Role.ROLE_USER))
+//                .registration(Registration.LOCAL)
+//                .build(), null));
+//    }
 
 }
