@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
-import site.lawmate.user.domain.dto.LoginDTO;
+import site.lawmate.user.domain.dto.LoginDto;
 import site.lawmate.user.domain.model.PrincipalUserDetails;
 import site.lawmate.user.domain.model.UserModel;
 import site.lawmate.user.domain.vo.Registration;
@@ -33,7 +33,7 @@ public class AuthController {
     @SuppressWarnings("static-access")
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody UserDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
+        log.info("user save 파라미터: {}", dto);
         return ResponseEntity.ok(service.save(dto));
     }
 
@@ -42,16 +42,16 @@ public class AuthController {
         Messenger messenger = service.login(dto);
         return ResponseEntity.ok(messenger);
     }
-//
-//    @PostMapping("/login/local")
-//    public Mono<PrincipalUserDetails> login(@RequestBody LoginDTO dto) {
-//        log.info("login: {}", dto);
-//        return Mono.just(new PrincipalUserDetails(UserModel.builder()
-//                .id("aaa1234")
-//                .email(dto.getEmail())
-//                .roles(List.of(Role.ROLE_USER))
-//                .registration(Registration.LOCAL)
-//                .build(), null));
-//    }
+
+    @PostMapping("/login/local")
+    public Mono<PrincipalUserDetails> login(@RequestBody LoginDto dto) {
+        log.info("login: {}", dto);
+        return Mono.just(new PrincipalUserDetails(UserModel.builder()
+                .id("aaa1234")
+                .email(dto.getEmail())
+                .roles(List.of(Role.ROLE_USER))
+                .registration(Registration.LOCAL)
+                .build(), null));
+    }
 
 }
