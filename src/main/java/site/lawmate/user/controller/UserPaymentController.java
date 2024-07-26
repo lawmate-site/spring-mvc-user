@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.vo.PaymentStatus;
-import site.lawmate.user.domain.dto.PaymentDto;
-import site.lawmate.user.service.PaymentService;
+import site.lawmate.user.domain.dto.UserPaymentDto;
+import site.lawmate.user.service.UserPaymentService;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(path = "/payment")
+@RequestMapping(path = "/user_payment")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ import java.util.Optional;
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")
 })
-public class PaymentController {
-    private final PaymentService paymentService;
+public class UserPaymentController {
+    private final UserPaymentService userPaymentService;
 
     @Value("${iamport.key}")
     private String restApiKey;
@@ -49,9 +49,9 @@ public class PaymentController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Messenger> savePayment(@RequestBody PaymentDto dto) {
+    public ResponseEntity<Messenger> savePayment(@RequestBody UserPaymentDto dto) {
         log.info("payment save 파라미터: {} ", dto);
-        return ResponseEntity.ok(paymentService.save(dto));
+        return ResponseEntity.ok(userPaymentService.save(dto));
     }
 
     @PostMapping("/status")
@@ -74,33 +74,33 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<PaymentDto>> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Optional<UserPaymentDto>> findById(@PathVariable("id") Long id) {
         log.info("payment 정보 조회 진입 id: {} ", id);
-        return ResponseEntity.ok(paymentService.findById(id));
+        return ResponseEntity.ok(userPaymentService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Messenger> update(@RequestBody PaymentDto dto) {
+    public ResponseEntity<Messenger> update(@RequestBody UserPaymentDto dto) {
         log.info("update payment 진입 성공: {} ", dto.toString());
-        return ResponseEntity.ok(paymentService.update(dto));
+        return ResponseEntity.ok(userPaymentService.update(dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
         log.info("delete payment id: {} ", id);
-        return ResponseEntity.ok(paymentService.delete(id));
+        return ResponseEntity.ok(userPaymentService.delete(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<PaymentDto>> findAll() {
+    public ResponseEntity<Iterable<UserPaymentDto>> findAll() {
         log.info("findAll payment 진입 성공");
-        return ResponseEntity.ok(paymentService.findAll());
+        return ResponseEntity.ok(userPaymentService.findAll());
     }
 
     @GetMapping(path = "/buyer/{buyerId}")
-    public ResponseEntity<List<PaymentDto>> findByBuyerId(@PathVariable("buyerId") Long buyerId) {
+    public ResponseEntity<List<UserPaymentDto>> findByBuyerId(@PathVariable("buyerId") Long buyerId) {
         log.info("payment 정보 조회 진입 유저 id: {} ", buyerId);
-        return ResponseEntity.ok(paymentService.getPaymentsByBuyerId(buyerId));
+        return ResponseEntity.ok(userPaymentService.getPaymentsByBuyerId(buyerId));
     }
 
 }

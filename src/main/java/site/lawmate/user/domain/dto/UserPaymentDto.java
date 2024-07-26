@@ -17,7 +17,7 @@ import site.lawmate.user.domain.vo.PaymentStatus;
 @Builder
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PaymentDto {
+public class UserPaymentDto {
     private Long id;
     private Long lawyer;
     private String paymentUid;
