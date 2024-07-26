@@ -16,14 +16,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByUsername(String username);
-
     @Modifying
     @Query("update users a set a.token = :token where a.id = :id")
     void modifyTokenById(@Param("id") Long id, @Param("token") String token);
 
     @Query("select count(id) as count from users where email =:email")
-    Integer existsByEmail(@Param("email") String email);
+    Integer existsByEmail(@Param("email") String username);
 
     @Modifying
     @Query("update users a set a.point = a.point + :point where a.id = :id")

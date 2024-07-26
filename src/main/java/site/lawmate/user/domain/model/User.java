@@ -19,11 +19,8 @@ import java.util.List;
 @Setter
 public class User extends BaseEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    private String username;
 
     @NotNull
     private String email;
@@ -44,11 +41,11 @@ public class User extends BaseEntity {
     private String gender;
     private String token;
     private Long point;
+    private String registration;
 
     @Builder
-    public User(String name, String username, String email, String picture, Role role) {
+    public User(String name, String email, String picture, Role role) {
         this.name = name;
-        this.username = username;
         this.email = email;
         this.picture = picture;
         this.role = role;
@@ -60,13 +57,13 @@ public class User extends BaseEntity {
         return this;
     }
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserPayment> payments;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Issue> issues;
 
 

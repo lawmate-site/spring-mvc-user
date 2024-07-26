@@ -14,7 +14,6 @@ import site.lawmate.user.domain.vo.Role;
 @Builder
 public class UserDto {
     private Long id;
-    private String username;
     private String email;
     private String name;
     private String password;
@@ -27,6 +26,7 @@ public class UserDto {
     private String modDate;
     private String token;
     private Long point;
+    private String registration;
 
     public UserDto(Long id, String email, String name) {
         this.id = id;

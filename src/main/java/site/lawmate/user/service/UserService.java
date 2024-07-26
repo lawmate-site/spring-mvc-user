@@ -36,12 +36,12 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
 
     Boolean logout(String accessToken);
 
-    Messenger update(UserDto user);
+    Messenger update(UserDto dto);
 
     User autoRegister();
 
-    Boolean existsByEmail(String email);
+    Boolean existsByUsername(String email);
 
-    Messenger modifyPoint(UserDto user);
+    Messenger updateUserPoints(UserDto dto);
 
 }

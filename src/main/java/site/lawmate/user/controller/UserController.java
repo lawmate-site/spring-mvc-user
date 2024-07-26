@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.QuestionDto;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
@@ -33,8 +32,8 @@ public class UserController {
 
     @GetMapping("/searchEmail")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam("email") String email) {
-        log.info("Parameter information of existsEmail: " + email);
-        Boolean flag = service.existsByEmail(email);
+        log.info("유저 search email: {}", email);
+        Boolean flag = service.existsByUsername(email);
         log.info("existsEmail : " + email);
         return ResponseEntity.ok(flag);
     }
@@ -46,7 +45,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserDto>> findById(@PathVariable("id") Long id) {
-        log.info("Parameter information of findById: " + id);
+        log.info("유저 findById: {}", id);
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -66,9 +65,10 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
-    @PutMapping("/modifyPoint")
-    public ResponseEntity<Messenger> modifyPoint(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.modifyPoint(dto));
+
+    @PutMapping("/updatePoint/{id}")
+    public ResponseEntity<Messenger> updateUserPoint(@RequestBody UserDto dto) {
+        return ResponseEntity.ok(service.updateUserPoints(dto));
     }
 
 }
