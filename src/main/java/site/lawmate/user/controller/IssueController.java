@@ -4,11 +4,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
 import site.lawmate.user.service.IssueService;
+import site.lawmate.user.service.impl.IssueServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -25,14 +28,14 @@ import java.util.Optional;
 })
 public class IssueController {
     private final IssueService issueService;
+    private final IssueServiceImpl issueServiceImpl;
 
-//    @GetMapping(path = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-//    public SseEmitter subscribe(){
-//        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
-//        issueService.addEmitter(emitter);
-//        issueService.sendEvents();
-//        return emitter;
-//    }
+    @GetMapping(path = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe(){
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        issueServiceImpl.addEmitter(emitter);
+        return emitter;
+    }
 
     @SuppressWarnings("static-access")
     @PostMapping("/save")
