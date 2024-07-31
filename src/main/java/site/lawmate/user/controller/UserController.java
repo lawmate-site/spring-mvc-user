@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
@@ -14,7 +15,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -26,8 +26,12 @@ public class UserController {
     private final UserService service;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDto>> findAll() throws SQLException {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<UserDto>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        log.info("유저 전체 조회 진입 page: {} size: {}", page, size);
+        return ResponseEntity.ok(service.findAll(PageRequest.of(page, size)));
     }
 
     @GetMapping("/searchEmail")
