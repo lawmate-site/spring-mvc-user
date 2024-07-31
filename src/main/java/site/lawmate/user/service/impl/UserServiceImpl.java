@@ -2,6 +2,7 @@ package site.lawmate.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,13 +64,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
-        return repository.findAllByOrderByIdDesc().stream().map(i -> entityToDto(i)).toList();
+    public List<UserDto> findAll(PageRequest pageRequest) {
+        return repository.findAllByOrderByIdDesc(pageRequest).stream().map(this::entityToDto).toList();
     }
 
     @Override
     public Optional<UserDto> findById(Long id) {
-        return repository.findById(id).map(i -> entityToDto(i));
+        return repository.findById(id).map(this::entityToDto);
     }
 
     @Override
