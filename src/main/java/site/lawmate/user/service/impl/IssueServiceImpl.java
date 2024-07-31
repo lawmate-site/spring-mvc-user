@@ -41,18 +41,6 @@ public class IssueServiceImpl implements IssueService {
         emitter.onTimeout(() -> emitters.remove(emitter));
     }
 
-//    @Scheduled(fixedRate = 1000)
-//    public void sendEvents() {
-//        for (SseEmitter emitter : emitters) {
-//            try {
-//                emitter.send("Hello, World!");
-//            } catch (IOException e) {
-//                emitter.complete();
-//                emitters.remove(emitter);
-//            }
-//        }
-//    }
-
     @Transactional
     @Override
     public Messenger save(IssueDto dto) {
