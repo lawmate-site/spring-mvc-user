@@ -10,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,12 @@ import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.service.UserPaymentService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping(path = "/user_payment")
+@RequestMapping(path = "/user_payments")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -92,9 +93,11 @@ public class UserPaymentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<UserPaymentDto>> findAll() {
+    public ResponseEntity<Iterable<UserPaymentDto>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) throws SQLException {
         log.info("findAll payment 진입 성공");
-        return ResponseEntity.ok(userPaymentService.findAll());
+        return ResponseEntity.ok(userPaymentService.findAll(PageRequest.of(page, size)));
     }
 
     @GetMapping(path = "/buyer/{buyerId}")

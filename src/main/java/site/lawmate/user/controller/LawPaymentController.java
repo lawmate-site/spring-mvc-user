@@ -10,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(path = "/law/payment")
 @Slf4j
@@ -94,10 +94,13 @@ public class LawPaymentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<LawPaymentDto>> findAll() {
-        log.info("findAll premium 결제 진입 성공");
-        return ResponseEntity.ok(paymentService.findAll());
+    public ResponseEntity<Iterable<LawPaymentDto>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("premium 결제 전체 조회 진입 page: {} size: {}", page, size);
+        return ResponseEntity.ok(paymentService.findAll(PageRequest.of(page, size)));
     }
+
 
     @GetMapping(path = "/buyer/{buyerId}")
     public ResponseEntity<List<LawPaymentDto>> findByLawyerId(@PathVariable("buyerId") Long lawyerId) {

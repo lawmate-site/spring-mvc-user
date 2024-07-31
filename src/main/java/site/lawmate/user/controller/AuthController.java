@@ -17,7 +17,6 @@ import site.lawmate.user.domain.vo.Role;
 import java.sql.SQLException;
 import java.util.List;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
