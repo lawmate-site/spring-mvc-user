@@ -1,6 +1,6 @@
-ALTER TABLE users MODIFY COLUMN picture VARCHAR(1000);
+ALTER TABLE users MODIFY COLUMN profile VARCHAR(1000);
 
-INSERT INTO users (id, reg_date, point, mod_date, age, email, name, phone, picture, gender, password) VALUES
+INSERT INTO users (id, reg_date, point, mod_date, age, email, name, phone, profile, gender, password) VALUES
     (101, '2024-07-14 00:27:22.515340', 250, '2024-07-14 00:27:22.515340', 30, 'juha@gmail.com', 'juhapark', '010-1111-1111', 'https://shore-molybdenum-274.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ffbf9e931-f803-4042-ad0f-48224818e025%2Feb46381e-21f8-4332-b04d-7434559b4925%2F1c252d11-2cf0-498f-b81e-0c7c0ffbd0cf.png?table=block&id=c72cff10-4125-4cc5-8e16-0981defe6595&spaceId=fbf9e931-f803-4042-ad0f-48224818e025&width=780&userId=&cache=v2', '여성', 'asdfasdf');
 COMMIT;
 
