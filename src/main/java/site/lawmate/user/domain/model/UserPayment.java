@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import site.lawmate.user.domain.vo.PaymentStatus;
 
-@Entity(name = "payments")
+@Entity(name = "user_payments")
 @Getter
 @NoArgsConstructor
 @Component

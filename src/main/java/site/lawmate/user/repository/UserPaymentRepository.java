@@ -12,6 +12,6 @@ import java.util.List;
 public interface UserPaymentRepository extends JpaRepository<UserPayment, Long> {
     UserPayment findByPaymentUid(String paymentUid);
 
-    @Query("SELECT p FROM payments p WHERE p.buyer.id = :buyerId")
+    @Query("SELECT p FROM user_payments p WHERE p.buyer.id = :buyerId")
     List<UserPaymentDto> findByBuyerId(Long buyerId);
 }

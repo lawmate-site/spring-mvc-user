@@ -5,6 +5,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
@@ -74,8 +75,8 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public List<UserPaymentDto> findAll() {
-        return payRepository.findAll().stream().map(this::entityToDto).toList();
+    public List<UserPaymentDto> findAll(PageRequest pageRequest) {
+        return payRepository.findAll(pageRequest).stream().map(this::entityToDto).toList();
     }
 
     @Override

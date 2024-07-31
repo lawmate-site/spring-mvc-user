@@ -1,5 +1,6 @@
 package site.lawmate.user.service.impl;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,8 @@ public class PremiumServiceImpl implements PremiumService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PremiumDto> findAll() {
-        return premiumRepository.findAll().stream()
+    public List<PremiumDto> findAll(PageRequest pageRequest) {
+        return premiumRepository.findAll(pageRequest).stream()
                 .map(this::entityToDto)
                 .toList();
     }
