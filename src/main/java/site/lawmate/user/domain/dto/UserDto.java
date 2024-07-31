@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import site.lawmate.user.domain.vo.Role;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
@@ -17,14 +19,14 @@ public class UserDto {
     private String email;
     private String name;
     private String password;
-    private String picture;
+    private String profile;
     private Role role;
     private String phone;
     private String age;
     private String gender;
     private String regDate;
     private String modDate;
-    private String token;
+    private List<Role> roles;
     private Long point;
     private String registration;
 

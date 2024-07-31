@@ -3,9 +3,10 @@ package site.lawmate.user.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import jakarta.persistence.OneToMany;
 import org.springframework.stereotype.Component;
 import site.lawmate.user.domain.vo.Role;
-
+import site.lawmate.user.domain.vo.Registration;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class User extends BaseEntity {
     private String password;
 
     @NotNull
-    private String picture;
+    private String profile;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -39,23 +40,28 @@ public class User extends BaseEntity {
     private String phone;
     private String age;
     private String gender;
-    private String token;
     private Long point;
-    private String registration;
+
+    // oauth
+    private Registration registration;
+    private String oauthId;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, String profile, Role role) {
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        this.profile = profile;
         this.role = role;
     }
 
-    public User update(String name, String picture) {
+    public User update(String name, String profile) {
         this.name = name;
-        this.picture = picture;
+        this.profile = profile;
         return this;
     }
+    @Setter
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoleModel> roleIds;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Question> questions;
