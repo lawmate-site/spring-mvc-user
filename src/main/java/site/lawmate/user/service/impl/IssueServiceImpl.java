@@ -2,6 +2,7 @@ package site.lawmate.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,17 +41,17 @@ public class IssueServiceImpl implements IssueService {
         emitter.onTimeout(() -> emitters.remove(emitter));
     }
 
-    @Scheduled(fixedRate = 1000)
-    public void sendEvents() {
-        for (SseEmitter emitter : emitters) {
-            try {
-                emitter.send("Hello, World!");
-            } catch (IOException e) {
-                emitter.complete();
-                emitters.remove(emitter);
-            }
-        }
-    }
+//    @Scheduled(fixedRate = 1000)
+//    public void sendEvents() {
+//        for (SseEmitter emitter : emitters) {
+//            try {
+//                emitter.send("Hello, World!");
+//            } catch (IOException e) {
+//                emitter.complete();
+//                emitters.remove(emitter);
+//            }
+//        }
+//    }
 
     @Transactional
     @Override
@@ -125,13 +126,13 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public List<IssueDto> findAll() {
-        return issueRepository.findAllByOrderByIdDesc().stream().map(i -> entityToDto(i)).toList();
+    public List<IssueDto> findAll(PageRequest pageRequest) {
+        return issueRepository.findAllByOrderByIdDesc(pageRequest).stream().map(this::entityToDto).toList();
     }
 
     @Override
     public Optional<IssueDto> findById(Long id) {
-        return issueRepository.findById(id).map(i -> entityToDto(i));
+        return issueRepository.findById(id).map(this::entityToDto);
     }
 
     @Override
