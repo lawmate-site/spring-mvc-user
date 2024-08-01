@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class LawPaymentServiceImpl implements LawPaymentService {
-    private LawPaymentRepository payRepository;
+    private final LawPaymentRepository payRepository;
 
     @Transactional
     @Override
@@ -61,12 +61,10 @@ public class LawPaymentServiceImpl implements LawPaymentService {
         }
     }
 
-
     @Override
     public UserPaymentDto findRequestDto(String orderUid) {
         return null;
     }
-
 
     @Override
     public IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request) {
