@@ -55,24 +55,23 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(oauthUser.getEmail()) > 0) {
             User existOauthUpdate = userRepository.findByEmail(dto.email())
                     .stream()
-                    .map(i -> userRepository.save(oauthUser))
                     .findFirst()
                     .get();
             return LoginDto.builder()
                     .user(UserDto.builder()
                             .email(existOauthUpdate.getEmail())
-                            .roles(existOauthUpdate.getRoleIds().stream().map(i -> Role.getRole(i.getRole())).toList())
+                            .roles(List.of(Role.ROLE_USER))
                             .build())
                     .build();
         } else {
             var newOauthSave = userRepository.save(oauthUser);
-            var roleSave = roleRepository.save(RoleModel.builder().role(0).userId(newOauthSave).build());
+//            var roleSave = roleRepository.save(RoleModel.builder().role(1).userId(newOauthSave).build());
 
             return LoginDto.builder()
                     .user(UserDto.builder()
                             .id(newOauthSave.getId())
                             .email(newOauthSave.getEmail())
-                            .roles(Stream.of(roleSave.getRole()).map(Role::getRole).toList())
+                            .roles(List.of(Role.ROLE_NEWUSER))
                             .build())
                     .build();
         }

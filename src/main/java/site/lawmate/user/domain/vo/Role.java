@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 public enum Role {
-    ROLE_USER(0), ROLE_ADMIN(1);
+    ROLE_USER(0), ROLE_NEWUSER(1);
 
     private int roleCode;
 
