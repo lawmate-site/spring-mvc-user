@@ -44,7 +44,6 @@ public class User extends BaseEntity {
 
     // oauth
     private Registration registration;
-    private String oauthId;
 
     @Builder
     public User(String name, String email, String profile, Role role) {
@@ -59,9 +58,6 @@ public class User extends BaseEntity {
         this.profile = profile;
         return this;
     }
-    @Setter
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RoleModel> roleIds;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Question> questions;

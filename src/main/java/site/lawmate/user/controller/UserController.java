@@ -42,6 +42,12 @@ public class UserController {
         return ResponseEntity.ok(flag);
     }
 
+    @GetMapping("/findEmail")
+    public ResponseEntity<Optional<UserDto>> findByEmail(@RequestParam("email") String email) {
+        log.info("유저 findByEmail: {}", email);
+        return ResponseEntity.ok(service.findByEmail(email));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<Boolean> existsById(@RequestParam("id") Long id) {
         return ResponseEntity.ok(service.existsById(id));

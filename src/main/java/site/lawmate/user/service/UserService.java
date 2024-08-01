@@ -6,6 +6,8 @@ import site.lawmate.user.domain.dto.OAuth2UserDto;
 import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.dto.UserDto;
 
+import java.util.Optional;
+
 public interface UserService extends CommandService<UserDto>, QueryService<UserDto> {
 
     default User dtoToEntity(UserDto dto) {
@@ -47,5 +49,10 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     Boolean existsByUsername(String email);
 
     Messenger updateUserPoints(UserDto dto);
+
+    Messenger save(UserDto dto);
+
+    Optional<UserDto> findByEmail(String email);
+
 
 }

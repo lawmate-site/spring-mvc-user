@@ -3,25 +3,20 @@ package site.lawmate.user.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.LoginDto;
 import site.lawmate.user.domain.dto.OAuth2UserDto;
 import site.lawmate.user.domain.dto.UserDto;
-import site.lawmate.user.domain.model.RoleModel;
 import site.lawmate.user.domain.vo.Registration;
 import site.lawmate.user.domain.vo.Role;
-import site.lawmate.user.repository.RoleRepository;
 import site.lawmate.user.repository.UserRepository;
 import site.lawmate.user.domain.model.User;
 import site.lawmate.user.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Stream;
 
 @Log4j2
 @Service
@@ -29,7 +24,6 @@ import java.util.stream.Stream;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Transactional
     @Override
@@ -44,11 +38,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserDto> findByEmail(String email) {
+        return userRepository.findByEmail(email).map(this::entityToDto);
+
+    }
+
+    @Override
     public LoginDto oauthJoin(OAuth2UserDto dto) {
         User oauthUser = User.builder()
                 .email(dto.email())
                 .name(dto.name())
-                .oauthId(dto.id())
                 .profile(dto.profile())
                 .registration(Registration.valueOf(Registration.GOOGLE.name()))
                 .build();
@@ -65,8 +64,6 @@ public class UserServiceImpl implements UserService {
                     .build();
         } else {
             var newOauthSave = userRepository.save(oauthUser);
-//            var roleSave = roleRepository.save(RoleModel.builder().role(1).userId(newOauthSave).build());
-
             return LoginDto.builder()
                     .user(UserDto.builder()
                             .id(newOauthSave.getId())
