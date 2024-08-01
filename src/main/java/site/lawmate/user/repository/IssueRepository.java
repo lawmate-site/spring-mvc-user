@@ -12,4 +12,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long>{
 
     List<Issue> findAllByOrderByIdDesc(PageRequest pageRequest);
 
+    List<Issue> findAllByLawyerIdOrderByIdDesc(Long lawyerId, PageRequest pageRequest);
+
 }

@@ -28,13 +28,14 @@ public class Issue extends BaseEntity {
     private User client;
 
 
-    public static Issue of(String law, String title, String content, String attachment, User client) {
+    public static Issue of(String law, String title, String content, String attachment, User client, String lawyerId) {
         Issue issue = new Issue();
         issue.law = law;
         issue.title = title;
         issue.content = content;
         issue.attachment = attachment;
         issue.client = client;
+        issue.lawyerId = lawyerId;
         return issue;
     }
 }

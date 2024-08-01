@@ -33,7 +33,7 @@ public class IssueController {
     @GetMapping(path = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(){
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
-        issueServiceImpl.addEmitter(emitter);
+        issueService.addEmitter(emitter);
         return emitter;
     }
 

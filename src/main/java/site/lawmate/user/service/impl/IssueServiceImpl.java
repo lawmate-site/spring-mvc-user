@@ -52,6 +52,7 @@ public class IssueServiceImpl implements IssueService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .attachment(dto.getAttachment())
+                .lawyerId(dto.getLawyerId())
                 .client(dto.getClient())
                 .build();
         Issue savedIssue = issueRepository.save(issue);
@@ -98,6 +99,7 @@ public class IssueServiceImpl implements IssueService {
                     .title(dto.getTitle())
                     .content(dto.getContent())
                     .attachment(dto.getAttachment())
+                    .lawyerId(dto.getLawyerId())
                     .client(dto.getClient())
                     .build();
             Long upatedIssueId = issueRepository.save(updatedIssue).getId();
