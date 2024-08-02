@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.domain.vo.PaymentStatus;
 import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.service.UserPaymentService;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/user_payments")
+@RequestMapping(path = "/user/payments")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -74,6 +75,12 @@ public class UserPaymentController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/cancel/{imp_uid}")
+    public IamportResponse<Payment> cancelPayment(@PathVariable String imp_uid) throws IamportResponseException, IOException {
+        return userPaymentService.cancelPayment(imp_uid);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserPaymentDto>> findById(@PathVariable("id") Long id) {
         log.info("payment 정보 조회 진입 id: {} ", id);
@@ -105,5 +112,8 @@ public class UserPaymentController {
         log.info("payment 정보 조회 진입 유저 id: {} ", buyerId);
         return ResponseEntity.ok(userPaymentService.getPaymentsByBuyerId(buyerId));
     }
-
+    @PutMapping("/updatePoint/{id}")
+    public ResponseEntity<Messenger> updateUserPoint(@PathVariable("id") Long id, @RequestBody Long amount) {
+        return ResponseEntity.ok(userPaymentService.updateUserPoints(id, amount));
+    }
 }

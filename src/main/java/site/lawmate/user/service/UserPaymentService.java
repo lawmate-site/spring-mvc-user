@@ -2,6 +2,8 @@ package site.lawmate.user.service;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.UserPayment;
@@ -16,7 +18,12 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
 
-    public List<UserPaymentDto> getPaymentsByBuyerId(Long buyer);
+    List<UserPaymentDto> getPaymentsByBuyerId(Long buyer);
+
+    IamportResponse<Payment> cancelPayment(String imp_uid);
+
+    Messenger updateUserPoints(Long id, Long amount);
+
 
     default UserPayment dtoToEntity(UserPaymentDto dto) {
         return UserPayment.builder()

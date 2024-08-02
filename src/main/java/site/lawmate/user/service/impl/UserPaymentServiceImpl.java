@@ -47,6 +47,23 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
+    public Messenger updateUserPoints(Long id, Long amount) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Long currentPoints = user.getPoint();
+            if (currentPoints == null) {
+                currentPoints = 0L; // If points are null, initialize to 0
+            }
+            user.setPoint(currentPoints + amount);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("User with ID " + id + " not found.");
+        }
+        return Messenger.builder().message("SUCCESS").build();
+    }
+
+    @Override
     public UserPaymentDto findRequestDto(String orderUid) {
         return null;
     }
@@ -56,14 +73,6 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         return null;
     }
 
-    private void updateUserPoints(Long userId, Long amount) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setPoint(user.getPoint() + amount);
-            userRepository.save(user);
-        }
-    }
 
     @Transactional
     @Override
@@ -88,6 +97,11 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     @Transactional(readOnly = true)
     public List<UserPaymentDto> getPaymentsByBuyerId(Long buyerId) {
         return payRepository.findByBuyerId(buyerId);
+    }
+
+    @Override
+    public IamportResponse<Payment> cancelPayment(String imp_uid) {
+        return null;
     }
 
     @Override

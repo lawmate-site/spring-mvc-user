@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
                     .get();
             return LoginDto.builder()
                     .user(UserDto.builder()
+                            .id(existOauthUpdate.getId())
                             .email(existOauthUpdate.getEmail())
                             .roles(List.of(Role.ROLE_USER))
                             .build())
@@ -162,35 +163,5 @@ public class UserServiceImpl implements UserService {
     public Boolean existsByUsername(String email) {
         Integer count = userRepository.existsByEmail(email);
         return count == 1;
-    }
-
-    @Transactional
-    @Override
-    public Messenger updateUserPoints(UserDto dto) {
-        log.info("service 진입 파라미터: {} ", dto);
-
-        if (dto.getId() != null) {
-            Optional<User> optionalUser = userRepository.findById(dto.getId());
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                User modifyUser = user.toBuilder()
-                        .point(dto.getPoint())
-                        .build();
-                Long updateUserId = userRepository.save(modifyUser).getId();
-
-                return Messenger.builder()
-                        .message("SUCCESS ID: " + updateUserId)
-                        .build();
-            } else {
-                return Messenger.builder()
-                        .message("USER NOT FOUND")
-                        .build();
-            }
-        } else {
-            return Messenger.builder()
-                    .message("FAILURE. USER ID IS NULL")
-                    .build();
-        }
-
     }
 }

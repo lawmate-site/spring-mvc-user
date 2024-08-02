@@ -48,8 +48,6 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
 
     Boolean existsByUsername(String email);
 
-    Messenger updateUserPoints(UserDto dto);
-
     Messenger save(UserDto dto);
 
     Optional<UserDto> findByEmail(String email);

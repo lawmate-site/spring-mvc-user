@@ -74,11 +74,4 @@ public class UserController {
         var flag = service.logout(accessToken);
         return ResponseEntity.ok(flag);
     }
-
-
-    @PutMapping("/updatePoint/{id}")
-    public ResponseEntity<Messenger> updateUserPoint(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(service.updateUserPoints(dto));
-    }
-
 }
