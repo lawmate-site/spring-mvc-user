@@ -38,7 +38,7 @@ public class QuestionController {
     @GetMapping("/all")
     public ResponseEntity<List<QuestionDto>> findAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
+            @RequestParam(value = "size", defaultValue = "30") int size) {
         return ResponseEntity.ok(service.findAll(PageRequest.of(page, size)));
     }
 
