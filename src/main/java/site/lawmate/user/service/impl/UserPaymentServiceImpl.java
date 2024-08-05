@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
+import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.User;
@@ -36,9 +37,10 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         UserPayment payment = dtoToEntity(dto);
         UserPayment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
-
         if (exists && payment.getStatus() == PaymentStatus.OK) {
-            updateUserPoints(payment.getBuyer().getId(), payment.getAmount());
+            Optional.ofNullable(payment.getAmount())
+                    .filter(amount -> amount > 0)
+                    .ifPresent(amount -> addUserPoints(payment.getBuyer().getId(), amount));
         }
 
         return Messenger.builder()
@@ -47,21 +49,37 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
-    public Messenger updateUserPoints(Long id, Long amount) {
+    public void addUserPoints(Long id, Long amount) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
+            log.info(() -> String.format(
+                    "포인트 충전 전: %d", optionalUser.get().getPoint()));
             User user = optionalUser.get();
-            Long currentPoints = user.getPoint();
-            if (currentPoints == null) {
-                currentPoints = 0L; // If points are null, initialize to 0
-            }
+            Long currentPoints = Optional.ofNullable(user.getPoint()).orElse(0L);
             user.setPoint(currentPoints + amount);
             userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("User with ID " + id + " not found.");
+            log.info("포인트 충전 성공: {}", user.getPoint());
         }
-        return Messenger.builder().message("SUCCESS").build();
+        Messenger.builder().message("SUCCESS").build();
     }
+
+    @Override
+    public Messenger subtractUserPoints(UserPaymentDto dto) {
+        Optional<User> optionalUser = userRepository.findById(dto.getId());
+        if (optionalUser.isPresent()) {
+            log.info(() -> String.format(
+                    "포인트 사용 전: %d", optionalUser.get().getPoint()));
+            User user = optionalUser.get();
+            Long currentPoints = Optional.ofNullable(user.getPoint()).orElse(0L);
+            if (currentPoints < dto.getAmount()) {
+                return Messenger.builder().message("FAILURE").build();
+            }
+            user.setPoint(currentPoints - dto.getAmount());
+            userRepository.save(user);
+            log.info("포인트 사용 성공: {}", user.getPoint());
+        }
+        return Messenger.builder().message("SUCCESS").build();    }
+
 
     @Override
     public UserPaymentDto findRequestDto(String orderUid) {
@@ -103,6 +121,8 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     public IamportResponse<Payment> cancelPayment(String imp_uid) {
         return null;
     }
+
+
 
     @Override
     public Messenger count() {

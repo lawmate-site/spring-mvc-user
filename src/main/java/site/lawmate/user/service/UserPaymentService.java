@@ -22,14 +22,16 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
 
     IamportResponse<Payment> cancelPayment(String imp_uid);
 
-    Messenger updateUserPoints(Long id, Long amount);
+    void addUserPoints(Long id, Long amount);
 
+    Messenger subtractUserPoints(UserPaymentDto dto);
 
     default UserPayment dtoToEntity(UserPaymentDto dto) {
         return UserPayment.builder()
                 .paymentUid(UUID.randomUUID().toString())
                 .status(dto.getStatus())
                 .buyer(dto.getBuyer())
+                .amount(dto.getAmount())
                 .product(dto.getProduct())
                 .build();
     }
@@ -40,6 +42,7 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
                 .paymentUid(UUID.randomUUID().toString())
                 .status(pay.getStatus())
                 .buyer(pay.getBuyer())
+                .amount(pay.getAmount())
                 .product(pay.getProduct())
                 .build();
     }

@@ -2,11 +2,13 @@ package site.lawmate.user.controller;
 
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.PostConstruct;
+import jakarta.xml.ws.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +24,7 @@ import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.service.UserPaymentService;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +58,11 @@ public class UserPaymentController {
         log.info("payment save 파라미터: {} ", dto);
         return ResponseEntity.ok(userPaymentService.save(dto));
     }
+    @PostMapping("/usePoint")
+    public ResponseEntity<Messenger> usePoint(@RequestBody UserPaymentDto dto) {
+        log.info("payment usePoint id: {} ", dto);
+        return ResponseEntity.ok(userPaymentService.subtractUserPoints(dto));
+    }
 
     @PostMapping("/status")
     public ResponseEntity<String> paymentStatus(@RequestBody PaymentStatus status) {
@@ -75,11 +83,22 @@ public class UserPaymentController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cancel/{imp_uid}")
-    public IamportResponse<Payment> cancelPayment(@PathVariable String imp_uid) throws IamportResponseException, IOException {
-        return userPaymentService.cancelPayment(imp_uid);
+    @PostMapping("/cancel")
+    public ResponseEntity<?> cancelPayment(@RequestBody CancelData cancelData) throws IamportResponseException, IOException {
+        log.info("Cancel payment: {}", cancelData.getClass());
+
+        // Cancel the payment using IamportClient
+        IamportResponse<Payment> response = iamportClient.cancelPaymentByImpUid(cancelData);
+
+        // Return the response
+        return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{imp_uid}/balance")
+    public ResponseEntity<?> getBalance(@PathVariable String imp_uid) throws IamportResponseException, IOException {
+        IamportResponse<Payment> response = iamportClient.paymentByImpUid(imp_uid);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserPaymentDto>> findById(@PathVariable("id") Long id) {
@@ -112,8 +131,5 @@ public class UserPaymentController {
         log.info("payment 정보 조회 진입 유저 id: {} ", buyerId);
         return ResponseEntity.ok(userPaymentService.getPaymentsByBuyerId(buyerId));
     }
-    @PutMapping("/updatePoint/{id}")
-    public ResponseEntity<Messenger> updateUserPoint(@PathVariable("id") Long id, @RequestBody Long amount) {
-        return ResponseEntity.ok(userPaymentService.updateUserPoints(id, amount));
-    }
+
 }

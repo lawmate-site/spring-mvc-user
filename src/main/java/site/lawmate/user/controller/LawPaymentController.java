@@ -55,7 +55,6 @@ public class LawPaymentController {
         return ResponseEntity.ok(paymentService.save(dto));
     }
 
-
     @PostMapping("/status")
     public ResponseEntity<String> paymentStatus(@RequestBody PaymentStatus status) {
         log.info("premium 결제 status: {}", status);
