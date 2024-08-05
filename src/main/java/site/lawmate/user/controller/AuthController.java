@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/oauth2/{registration}")
-    public ResponseEntity<LoginDto> oauthJogin(@RequestBody OAuth2UserDto dto) {
+    public ResponseEntity<LoginDto> oauthLogin(@RequestBody OAuth2UserDto dto) {
         log.info("user oauth2 파라미터: {} ", dto);
         return ResponseEntity.ok(service.oauthJoin(dto));
     }
