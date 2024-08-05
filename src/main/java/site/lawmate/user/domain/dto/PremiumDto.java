@@ -22,6 +22,5 @@ public class PremiumDto {
     private String price;
     private LocalDateTime startDate;
     private LocalDateTime expireDate;
-
-    private String lawyerId;
+    private String lawyer;
 }
