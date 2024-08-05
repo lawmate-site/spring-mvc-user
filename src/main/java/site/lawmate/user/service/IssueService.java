@@ -5,6 +5,7 @@ import site.lawmate.user.domain.dto.IssueDto;
 import site.lawmate.user.domain.model.Issue;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
 
 public interface IssueService extends CommandService<IssueDto>, QueryService<IssueDto> {
     default Issue dtoToEntity(IssueDto dto) {
@@ -13,7 +14,7 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .attachment(dto.getAttachment())
-                .lawyerId(dto.getLawyerId())
+                .lawyer(dto.getLawyer())
                 .build();
     }
 
@@ -24,7 +25,7 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
                 .title(issue.getTitle())
                 .content(issue.getContent())
                 .attachment(issue.getAttachment())
-                .lawyerId(issue.getLawyerId())
+                .lawyer(issue.getLawyer())
                 .build();
     }
 
@@ -33,4 +34,6 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
     Messenger count();
 
     void addEmitter(SseEmitter emitter);
+
+    List<IssueDto> getAllNotifications(String lawyer);
 }

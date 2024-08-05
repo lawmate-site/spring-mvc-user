@@ -16,7 +16,7 @@ public class IssueDto {
     private String title;
     private String content;
     private String attachment;
-    private String lawyerId;
+    private String lawyer;
     private User client;
     private String regDate;
     private String modDate;
