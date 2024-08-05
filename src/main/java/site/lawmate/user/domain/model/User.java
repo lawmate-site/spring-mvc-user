@@ -67,6 +67,4 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Issue> issues;
-
-
 }
