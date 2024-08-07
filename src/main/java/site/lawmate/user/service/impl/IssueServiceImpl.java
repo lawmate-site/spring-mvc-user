@@ -62,7 +62,6 @@ public class IssueServiceImpl implements IssueService {
                 .law(dto.getLaw())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .attachment(dto.getAttachment())
                 .client(dto.getClient())
                 .lawyer(dto.getLawyer())
                 .build();
@@ -109,7 +108,6 @@ public class IssueServiceImpl implements IssueService {
                     .law(dto.getLaw())
                     .title(dto.getTitle())
                     .content(dto.getContent())
-                    .attachment(dto.getAttachment())
                     .lawyer(dto.getLawyer())
                     .client(dto.getClient())
                     .build();

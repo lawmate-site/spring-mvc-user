@@ -13,7 +13,8 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
                 .law(dto.getLaw())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .attachment(dto.getAttachment())
+                .date(dto.getDate())
+                .time(dto.getTime())
                 .lawyer(dto.getLawyer())
                 .build();
     }
@@ -24,7 +25,8 @@ public interface IssueService extends CommandService<IssueDto>, QueryService<Iss
                 .law(issue.getLaw())
                 .title(issue.getTitle())
                 .content(issue.getContent())
-                .attachment(issue.getAttachment())
+                .date(issue.getDate())
+                .time(issue.getTime())
                 .lawyer(issue.getLawyer())
                 .build();
     }

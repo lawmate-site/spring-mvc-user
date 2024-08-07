@@ -20,7 +20,8 @@ public class Issue extends BaseEntity {
     private String law;
     private String title;
     private String content;
-    private String attachment;
+    private String date;
+    private String time;
     private String lawyer;
 
     @ManyToOne
@@ -28,12 +29,11 @@ public class Issue extends BaseEntity {
     private User client;
 
 
-    public static Issue of(String law, String title, String content, String attachment, User client, String lawyer) {
+    public static Issue of(String law, String title, String content, User client, String lawyer) {
         Issue issue = new Issue();
         issue.law = law;
         issue.title = title;
         issue.content = content;
-        issue.attachment = attachment;
         issue.client = client;
         issue.lawyer = lawyer;
         return issue;
