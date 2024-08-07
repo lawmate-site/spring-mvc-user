@@ -77,24 +77,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Messenger login(UserDto dto) {
-        log.info("login 진입 성공 email: {}", dto.getEmail());
-        Optional<User> optionalUser = userRepository.findByEmail(dto.getEmail());
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            boolean flag = user.getPassword().equals(dto.getPassword());
-            return Messenger.builder()
-                    .message(flag ? "SUCCESS" : "FAILURE")
-                    .build();
-        } else {
-            return Messenger.builder()
-                    .message("User does not exist.")
-                    .build();
-        }
-    }
-
-    @Transactional
-    @Override
     public Messenger delete(Long id) {
         userRepository.deleteById(id);
         return Messenger.builder()

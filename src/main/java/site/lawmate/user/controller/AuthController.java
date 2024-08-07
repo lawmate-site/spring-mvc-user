@@ -33,12 +33,6 @@ public class AuthController {
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @PostMapping(path = "/login/local")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto dto) throws SQLException {
-        Messenger messenger = service.login(dto);
-        return ResponseEntity.ok(messenger);
-    }
-
     @PostMapping("/oauth2/{registration}")
     public ResponseEntity<LoginDto> oauthLogin(@RequestBody OAuth2UserDto dto) {
         log.info("user oauth2 파라미터: {} ", dto);

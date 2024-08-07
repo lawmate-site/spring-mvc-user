@@ -14,7 +14,6 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
         return User.builder()
                 .email(dto.getEmail())
                 .name(dto.getName())
-                .password(dto.getPassword())
                 .phone(dto.getPhone())
                 .age(dto.getAge())
                 .gender(dto.getGender())
@@ -27,7 +26,6 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
-                .password(user.getPassword())
                 .phone(user.getPhone())
                 .age(user.getAge())
                 .gender(user.getGender())
@@ -37,8 +35,6 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
     }
 
     LoginDto oauthJoin(OAuth2UserDto dto);
-
-    Messenger login(UserDto dto);
 
     Boolean logout(String accessToken);
 
