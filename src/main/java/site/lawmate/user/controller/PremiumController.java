@@ -1,9 +1,11 @@
 package site.lawmate.user.controller;
 
+import com.siot.IamportRestClient.IamportClient;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,13 @@ import java.util.Optional;
 })
 public class PremiumController {
     private final PremiumService premiumService;
+
+    @Value("${iamport.key}")
+    private String apiKey;
+    @Value("${iamport.secret}")
+    private String apiSecret;
+
+    private IamportClient iamportClient;
 
     @PostMapping("/save")
     public ResponseEntity<Messenger> savePremium(@RequestBody PremiumDto dto) {

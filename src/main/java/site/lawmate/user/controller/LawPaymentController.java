@@ -38,15 +38,15 @@ public class LawPaymentController {
     private final LawPaymentService paymentService;
 
     @Value("${iamport.key}")
-    private String restApiKey;
+    private String apiKey;
     @Value("${iamport.secret}")
-    private String restApiSecret;
+    private String apiSecret;
 
     private IamportClient iamportClient;
 
     @PostConstruct
     public void init() {
-        this.iamportClient = new IamportClient(restApiKey, restApiSecret);
+        this.iamportClient = new IamportClient(apiKey, apiSecret);
     }
 
     @PostMapping("/save")
@@ -59,10 +59,8 @@ public class LawPaymentController {
     public ResponseEntity<String> paymentStatus(@RequestBody PaymentStatus status) {
         log.info("premium 결제 status: {}", status);
         if (status == PaymentStatus.OK) {
-            // 결제 성공 시 처리할 로직 작성
             return new ResponseEntity<>("Payment SUCCESS", HttpStatus.OK);
         } else {
-            // 결제 실패 시 처리할 로직 작성
             return new ResponseEntity<>("Payment FAILURE", HttpStatus.BAD_REQUEST);
         }
     }

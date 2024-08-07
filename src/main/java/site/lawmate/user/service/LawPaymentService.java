@@ -23,7 +23,7 @@ public interface LawPaymentService extends CommandService<LawPaymentDto>, QueryS
     default LawPayment dtoToEntity(LawPaymentDto dto) {
         return LawPayment.builder()
                 .lawyerId(dto.getLawyerId())
-                .premiumUid(UUID.randomUUID().toString())
+                .impUid(dto.getImpUid())
                 .build();
     }
 
@@ -31,7 +31,7 @@ public interface LawPaymentService extends CommandService<LawPaymentDto>, QueryS
         return LawPaymentDto.builder()
                 .id(pay.getId())
                 .lawyerId(pay.getLawyerId())
-                .premiumUid(UUID.randomUUID().toString())
+                .impUid(pay.getImpUid())
                 .build();
     }
 

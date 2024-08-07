@@ -62,7 +62,7 @@ public class LawPaymentServiceImpl implements LawPaymentService {
     }
 
     @Override
-    public UserPaymentDto findRequestDto(String orderUid) {
+    public UserPaymentDto findRequestDto(String impUid) {
         return null;
     }
 
