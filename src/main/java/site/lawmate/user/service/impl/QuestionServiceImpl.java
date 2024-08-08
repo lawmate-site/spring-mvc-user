@@ -88,9 +88,12 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
-    @Override
+    @Transactional
     public List<QuestionDto> findAll(PageRequest pageRequest) {
-        return questionRepository.findAllByOrderByIdDesc(pageRequest).stream().map(this::entityToDto).toList();
+        return questionRepository.findAllByOrderByIdDesc(pageRequest)
+                .stream()
+                .map(this::entityToDto)
+                .toList();
     }
 
     @Override
