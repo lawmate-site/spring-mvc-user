@@ -25,7 +25,7 @@ public class UserDto {
     private String regDate;
     private String modDate;
     private List<Role> roles;
-    private Long point;
+    private Long point = 0L;
     private String registration;
 
     public UserDto(Long id, String email, String name) {

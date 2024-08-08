@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     private String phone;
     private String age;
     private String gender;
-    private Long point;
+    private Long point = 0L;
 
     @Enumerated(EnumType.STRING)
     private Registration registration;

@@ -37,6 +37,8 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
                 .impUid(dto.getImpUid())
                 .status(dto.getStatus())
                 .amount(dto.getAmount())
+                .buyer(dto.getBuyer())
+                .product(dto.getProduct())
                 .build();
     }
 
@@ -47,6 +49,8 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
                 .impUid(pay.getImpUid())
                 .status(pay.getStatus())
                 .amount(pay.getAmount())
+                .buyer(pay.getBuyer())
+                .product(pay.getProduct())
                 .build();
     }
 
