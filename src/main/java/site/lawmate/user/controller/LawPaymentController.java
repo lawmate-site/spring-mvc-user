@@ -98,10 +98,9 @@ public class LawPaymentController {
         return ResponseEntity.ok(paymentService.findAll(PageRequest.of(page, size)));
     }
 
-
-    @GetMapping(path = "/buyer/{buyerId}")
-    public ResponseEntity<List<LawPaymentDto>> findByLawyerId(@PathVariable("buyerId") Long lawyerId) {
+    @GetMapping(path = "/lawyer/{id}")
+    public ResponseEntity<List<LawPaymentDto>> findByLawyerId(@PathVariable("id") String lawyerId) {
         log.info("premium 결제 정보 조회 진입 유저 id: {} ", lawyerId);
-        return ResponseEntity.ok(paymentService.getPaymentsByLawyerId(lawyerId));
+        return ResponseEntity.ok(paymentService.findByLawyerId(lawyerId));
     }
 }

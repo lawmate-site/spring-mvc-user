@@ -18,6 +18,7 @@ public class UserDto {
     private Long id;
     private String email;
     private String name;
+    private String password;
     private String profile;
     private Role role;
     private String phone;

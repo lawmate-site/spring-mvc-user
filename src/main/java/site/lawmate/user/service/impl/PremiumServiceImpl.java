@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.PremiumDto;
+import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.Premium;
 import site.lawmate.user.repository.PremiumRepository;
 import site.lawmate.user.service.PremiumService;
@@ -104,4 +105,9 @@ public class PremiumServiceImpl implements PremiumService {
         return premiumRepository.existsById(id);
     }
 
+    @Override
+    public Optional<PremiumDto> findByLawyer(String lawyer) {
+        return premiumRepository.findByLawyer(lawyer)
+                .map(this::entityToDto);
+    }
 }

@@ -6,9 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.LoginDto;
+import site.lawmate.user.domain.dto.LoginDTO;
 import site.lawmate.user.domain.dto.OAuth2UserDto;
 import site.lawmate.user.domain.dto.UserDto;
+import site.lawmate.user.domain.dto.UserModel;
+import site.lawmate.user.domain.model.PrincipalUserDetails;
 import site.lawmate.user.domain.vo.Registration;
 import site.lawmate.user.domain.vo.Role;
 import site.lawmate.user.repository.UserRepository;
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginDto oauthJoin(OAuth2UserDto dto) {
+    public LoginDTO oauthJoin(OAuth2UserDto dto) {
         User oauthUser = User.builder()
                 .email(dto.email())
                 .name(dto.name())
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
                     .stream()
                     .findFirst()
                     .get();
-            return LoginDto.builder()
+            return LoginDTO.builder()
                     .user(UserDto.builder()
                             .id(existOauthUpdate.getId())
                             .email(existOauthUpdate.getEmail())
@@ -65,13 +67,36 @@ public class UserServiceImpl implements UserService {
                     .build();
         } else {
             var newOauthSave = userRepository.save(oauthUser);
-            return LoginDto.builder()
+            return LoginDTO.builder()
                     .user(UserDto.builder()
                             .id(newOauthSave.getId())
                             .email(newOauthSave.getEmail())
                             .roles(List.of(Role.ROLE_NEWUSER))
                             .build())
                     .build();
+        }
+    }
+    @Transactional
+    @Override
+    public PrincipalUserDetails login(LoginDTO dto){
+        log.info("login 진입 성공 email: {}", dto.getEmail());
+        Optional<User> optionalUser = userRepository.findByEmail(dto.getEmail());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            boolean flag = user.getPassword().equals(dto.getPassword());
+            if (flag){
+                return new PrincipalUserDetails(UserModel.builder()
+                        .id(user.getId().toString())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .roles(List.of(Role.ROLE_USER))
+                        .registration(Registration.valueOf(Registration.LOCAL.name()))
+                        .build());
+            } else {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+        } else{
+            throw new IllegalArgumentException("해당 유저가 존재하지 않습니다.");
         }
     }
 

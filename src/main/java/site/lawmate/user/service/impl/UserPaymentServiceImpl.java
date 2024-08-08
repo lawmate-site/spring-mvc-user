@@ -177,12 +177,18 @@ public class UserPaymentServiceImpl implements UserPaymentService {
     }
 
     @Override
+    public Optional<UserPaymentDto> findByLawyer(String lawyer) {
+        return payRepository.findByLawyer(lawyer)
+                .map(this::entityToDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<UserPaymentDto> findByBuyerId(Long buyerId) {
         return payRepository.findByBuyerId(buyerId)
                 .stream()
                 .map(this::entityToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -203,8 +209,6 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         if (payment.isPresent()) {
             UserPayment pay = payment.get();
             pay.setStatus(dto.getStatus());
-            pay.setBuyer(dto.getBuyer());
-            pay.setProduct(dto.getProduct());
             payRepository.save(pay);
             return Messenger.builder().message("SUCCESS").build();
         }

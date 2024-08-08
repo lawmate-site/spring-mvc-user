@@ -16,4 +16,6 @@ public interface UserPaymentRepository extends JpaRepository<UserPayment, Long> 
     @Query("SELECT p FROM user_payments p WHERE p.buyer.id = :buyerId")
     List<UserPayment> findByBuyerId(Long buyerId);
 
+    Optional<UserPayment> findByLawyer(String lawyer);
+
 }

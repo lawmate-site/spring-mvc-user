@@ -72,8 +72,9 @@ public class LawPaymentServiceImpl implements LawPaymentService {
     }
 
     @Override
-    public List<LawPaymentDto> getPaymentsByLawyerId(Long lawyerId) {
-        return payRepository.findByLawyerId(lawyerId);
+    public List<LawPaymentDto> findByLawyerId(String lawyerId) {
+        return payRepository.findByLawyerId(lawyerId)
+                .stream().toList();
     }
 
     @Override

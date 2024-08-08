@@ -28,5 +28,6 @@ public class Premium {
     private String lawyer;
 
     //만료 여부 확인
+    @Builder.Default
     private boolean isExpired = false;
 }

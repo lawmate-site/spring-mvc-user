@@ -24,6 +24,8 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
 
     List<UserPaymentDto> findByBuyerId(Long buyerId);
 
+    Optional<UserPaymentDto> findByLawyer(String lawyer);
+
     Messenger cancelPayment(UserPaymentDto dto) throws IamportResponseException, IOException;
 
     void addUserPoints(Long id, Long amount);
@@ -37,9 +39,7 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
                 .lawyer(dto.getLawyer())
                 .impUid(dto.getImpUid())
                 .status(dto.getStatus())
-                .buyer(dto.getBuyer())
                 .amount(dto.getAmount())
-                .product(dto.getProduct())
                 .build();
     }
 
@@ -49,9 +49,7 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
                 .lawyer(pay.getLawyer())
                 .impUid(pay.getImpUid())
                 .status(pay.getStatus())
-                .buyer(pay.getBuyer())
                 .amount(pay.getAmount())
-                .product(pay.getProduct())
                 .build();
     }
 

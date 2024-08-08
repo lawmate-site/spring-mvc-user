@@ -37,10 +37,10 @@ public class UserPayment extends BaseEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id")
+    @JoinColumn
     private User buyer;
 }

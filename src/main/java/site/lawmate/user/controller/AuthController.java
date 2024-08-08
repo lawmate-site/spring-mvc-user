@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.OAuth2UserDto;
 import site.lawmate.user.domain.dto.UserDto;
+import site.lawmate.user.domain.model.PrincipalUserDetails;
 import site.lawmate.user.service.UserService;
-import site.lawmate.user.domain.dto.LoginDto;
+import site.lawmate.user.domain.dto.LoginDTO;
 
 import java.sql.SQLException;
 
@@ -33,8 +34,14 @@ public class AuthController {
         return ResponseEntity.ok(service.save(dto));
     }
 
+
+    @PostMapping(path = "/login/local")
+    public ResponseEntity<PrincipalUserDetails> localLogin(@RequestBody LoginDTO dto) throws SQLException {
+        return ResponseEntity.ok(service.login(dto));
+    }
+
     @PostMapping("/oauth2/{registration}")
-    public ResponseEntity<LoginDto> oauthLogin(@RequestBody OAuth2UserDto dto) {
+    public ResponseEntity<LoginDTO> oauthLogin(@RequestBody OAuth2UserDto dto) {
         log.info("user oauth2 파라미터: {} ", dto);
         return ResponseEntity.ok(service.oauthJoin(dto));
     }

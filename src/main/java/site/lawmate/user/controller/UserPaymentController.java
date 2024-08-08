@@ -2,13 +2,11 @@ package site.lawmate.user.controller;
 
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.PostConstruct;
-import jakarta.xml.ws.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,15 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.domain.vo.PaymentStatus;
 import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.repository.UserPaymentRepository;
 import site.lawmate.user.service.UserPaymentService;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -129,6 +124,7 @@ public class UserPaymentController {
 
     @GetMapping("/buyer/{buyerId}")
     public ResponseEntity<List<UserPaymentDto>> findByBuyerId(@PathVariable("buyerId") Long buyerId) {
+        log.info("payment 구매자 결제 정보 조회 id: {} ", buyerId);
         return ResponseEntity.ok(userPaymentService.findByBuyerId(buyerId));
     }
 
@@ -138,5 +134,10 @@ public class UserPaymentController {
         return ResponseEntity.ok(userPaymentService.confirmPayment(dto));
     }
 
+    @GetMapping(path = "/findLawyer/{lawyer}")
+    public ResponseEntity<Optional<UserPaymentDto>> findByLawyer(@PathVariable("lawyer") String lawyer) {
+        log.info("premium 변호사 결제 정보 조회 id: {} ", lawyer);
+        return ResponseEntity.ok(userPaymentService.findByLawyer(lawyer));
+    }
 
 }

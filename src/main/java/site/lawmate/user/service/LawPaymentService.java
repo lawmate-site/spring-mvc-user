@@ -18,7 +18,7 @@ public interface LawPaymentService extends CommandService<LawPaymentDto>, QueryS
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
 
-    public List<LawPaymentDto> getPaymentsByLawyerId(Long lawyerId);
+    List<LawPaymentDto> findByLawyerId(String lawyerId);
 
     default LawPayment dtoToEntity(LawPaymentDto dto) {
         return LawPayment.builder()

@@ -11,5 +11,5 @@ public interface LawPaymentRepository extends JpaRepository<LawPayment, Long> {
     LawPayment findByImpUid(String impUid);
 
     @Query("SELECT p FROM law_payments p WHERE p.lawyerId = :lawyerId")
-    List<LawPaymentDto> findByLawyerId(Long lawyerId);
+    List<LawPaymentDto> findByLawyerId(String lawyerId);
 }

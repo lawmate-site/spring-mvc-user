@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import site.lawmate.user.domain.dto.UserModel;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -13,14 +14,14 @@ import java.util.Map;
 @Component
 @Setter
 public class PrincipalUserDetails implements Serializable {
-    private User user;
+    private UserModel user;
     private Map<String, Object> attributes;
 
-    public PrincipalUserDetails(User user) {
+    public PrincipalUserDetails(UserModel user) {
         this.user = user;
     }
 
-    public PrincipalUserDetails(User user, Map<String, Object> attributes) {
+    public PrincipalUserDetails(UserModel user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
