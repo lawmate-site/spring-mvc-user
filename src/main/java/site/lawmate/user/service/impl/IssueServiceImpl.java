@@ -3,7 +3,6 @@ package site.lawmate.user.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -108,6 +107,8 @@ public class IssueServiceImpl implements IssueService {
                     .law(dto.getLaw())
                     .title(dto.getTitle())
                     .content(dto.getContent())
+                    .date(dto.getDate())
+                    .time(dto.getTime())
                     .lawyer(dto.getLawyer())
                     .client(dto.getClient())
                     .build();

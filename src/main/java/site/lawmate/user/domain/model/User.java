@@ -3,10 +3,9 @@ package site.lawmate.user.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import jakarta.persistence.OneToMany;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.domain.vo.Role;
 import site.lawmate.user.domain.vo.Registration;
+import site.lawmate.user.domain.vo.Role;
 
 import java.util.List;
 

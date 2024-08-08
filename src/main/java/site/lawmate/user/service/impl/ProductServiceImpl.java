@@ -5,8 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.Product;
 import site.lawmate.user.domain.dto.ProductDto;
+import site.lawmate.user.domain.model.Product;
 import site.lawmate.user.repository.ProductRepository;
 import site.lawmate.user.service.ProductService;
 
@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
             Product modifyProduct = product.toBuilder()
                     .itemName(productDto.getItemName())
                     .price(productDto.getPrice())
-                    .image(productDto.getImage())
                     .build();
             productRepository.save(modifyProduct);
             return Messenger.builder().message("SUCCESS").build();

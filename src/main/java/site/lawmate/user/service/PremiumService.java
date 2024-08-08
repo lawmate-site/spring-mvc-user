@@ -1,10 +1,8 @@
 package site.lawmate.user.service;
 
 import site.lawmate.user.domain.dto.PremiumDto;
-import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.Premium;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface PremiumService extends CommandService<PremiumDto>, QueryService<PremiumDto> {

@@ -102,9 +102,9 @@ INSERT INTO users (id, reg_date, point, mod_date, age, email, name, phone, gende
 (99, '2023-01-27 16:52:11.500068', 600, '2024-01-30 09:30:45.500068', 33, 'olivia99@gmail.com', 'Olivia Garcia', '010-6789-0123', '여자'),
 (100, '2023-01-27 16:52:11.600069', 250, '2024-04-29 10:15:55.600069', 28, 'peter100@gmail.com', 'Peter Thompson', '010-7890-1234', '남자');
 
-INSERT INTO products (id, price, item_name, image) VALUES (1, '200','전화 상담 15분', 'https://i.ibb.co/NnpmWDF/call.jpg');
-INSERT INTO products (id, price, item_name, image) VALUES (2, '300', '영상 상담 30분', 'https://i.ibb.co/qj9GXmp/video-call.jpg');
-INSERT INTO products (id, price, item_name, image) VALUES (3, '500', '대면 상담 30분','https://i.ibb.co/tmvk3ZJ/meet-up.jpg');
+INSERT INTO products (id, price, item_name) VALUES (1, '20000','전화 상담 15분');
+INSERT INTO products (id, price, item_name) VALUES (2, '30000', '영상 상담 30분');
+INSERT INTO products (id, price, item_name) VALUES (3, '50000', '대면 상담 30분');
 
 INSERT INTO user_payments (id, imp_uid, status, buyer_id, product_id, lawyer) VALUES (1, '5438934598725629','OK', 1, 1, 1);
 INSERT INTO user_payments (id, imp_uid, status, buyer_id, product_id, lawyer) VALUES (2, '7983402601556431','OK', 2, 2, 2);

@@ -25,7 +25,7 @@ public class Issue extends BaseEntity {
     private String lawyer;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn
     private User client;
 
 

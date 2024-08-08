@@ -1,19 +1,16 @@
 package site.lawmate.user.service;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.dto.UserDto;
-import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.UserPaymentDto;
+import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.model.UserPayment;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface UserPaymentService extends CommandService<UserPaymentDto>, QueryService<UserPaymentDto> {
     // 결제 요청 데이터 조회

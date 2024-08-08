@@ -1,7 +1,7 @@
 package site.lawmate.user.service;
 
-import site.lawmate.user.domain.model.Product;
 import site.lawmate.user.domain.dto.ProductDto;
+import site.lawmate.user.domain.model.Product;
 
 public interface ProductService extends CommandService<ProductDto>, QueryService<ProductDto> {
 
@@ -9,7 +9,6 @@ public interface ProductService extends CommandService<ProductDto>, QueryService
         return Product.builder()
                 .itemName(dto.getItemName())
                 .price(dto.getPrice())
-                .image(dto.getImage())
                 .build();
     }
 
@@ -18,7 +17,6 @@ public interface ProductService extends CommandService<ProductDto>, QueryService
                 .id(product.getId())
                 .itemName(product.getItemName())
                 .price(product.getPrice())
-                .image(product.getImage())
                 .build();
     }
 }

@@ -11,10 +11,10 @@ import site.lawmate.user.domain.dto.OAuth2UserDto;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.domain.dto.UserModel;
 import site.lawmate.user.domain.model.PrincipalUserDetails;
+import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.vo.Registration;
 import site.lawmate.user.domain.vo.Role;
 import site.lawmate.user.repository.UserRepository;
-import site.lawmate.user.domain.model.User;
 import site.lawmate.user.service.UserService;
 
 import java.util.List;
@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
     public Messenger save(UserDto dto) {
         log.info("service 진입 파라미터: {} ", dto);
         dto.setRegistration(Registration.LOCAL.name());
+        log.info("Registration: {}", dto.getRegistration());
         User user = dtoToEntity(dto);
         User savedUser = userRepository.save(user);
         return Messenger.builder()

@@ -24,7 +24,7 @@ public class Question extends BaseEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "writer_id")
+    @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User writer;
 

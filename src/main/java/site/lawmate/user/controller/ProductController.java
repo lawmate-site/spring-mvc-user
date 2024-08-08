@@ -13,7 +13,6 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.ProductDto;
 import site.lawmate.user.service.ProductService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ProductDto>> findById(@RequestParam("id") Long id) {
+    public ResponseEntity<Optional<ProductDto>> findById(@PathVariable("id") Long id) {
         log.info("product 정보 조회 진입 id: {} ", id);
         return ResponseEntity.ok(productService.findById(id));
     }

@@ -17,7 +17,15 @@ public class LawPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long lawyerId;
+    private String lawyer;
     private String impUid;
+
+    @Enumerated(EnumType.STRING)
     private PaymentStatus status;
+    private Long amount;
+
+    @ManyToOne
+    @JoinColumn
+    private Premium premium;
+
 }

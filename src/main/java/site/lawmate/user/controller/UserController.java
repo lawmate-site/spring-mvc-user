@@ -11,7 +11,6 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.UserService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,11 +60,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Messenger> update(@RequestBody UserDto dto) {
+        log.info("유저 update dto: {}", dto);
         return ResponseEntity.ok(service.update(dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
+        log.info("유저 delete id: {}", id);
         return ResponseEntity.ok(service.delete(id));
     }
 

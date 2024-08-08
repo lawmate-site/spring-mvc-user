@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.PremiumDto;
-import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.service.PremiumService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 

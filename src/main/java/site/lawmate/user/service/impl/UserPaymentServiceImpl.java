@@ -11,8 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
-import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.dto.UserPaymentDto;
+import site.lawmate.user.domain.model.PaymentCallbackRequest;
 import site.lawmate.user.domain.model.User;
 import site.lawmate.user.domain.model.UserPayment;
 import site.lawmate.user.domain.vo.PaymentStatus;
@@ -43,11 +43,14 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         UserPayment payment = dtoToEntity(dto);
         UserPayment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
-        boolean productExists = productRepository.existsById(savedPayment.getProduct().getId());
         if (exists && payment.getStatus() == PaymentStatus.OK) {
-            Optional.ofNullable(payment.getAmount())
-                    .filter(amount -> amount > 0)
-                    .ifPresent(amount -> addUserPoints(payment.getBuyer().getId(), amount));
+            Optional.ofNullable(payment.getBuyer())
+                    .map(User::getId)
+                    .ifPresent(buyerId -> {
+                        Optional.ofNullable(payment.getAmount())
+                                .filter(amount -> amount > 0)
+                                .ifPresent(amount -> addUserPoints(buyerId, amount));
+                    });
         }
         return Messenger.builder()
                 .message(exists ? "SUCCESS" : "FAILURE")
@@ -209,6 +212,10 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         if (payment.isPresent()) {
             UserPayment pay = payment.get();
             pay.setStatus(dto.getStatus());
+            pay.setBuyer(dto.getBuyer());
+            pay.setProduct(dto.getProduct());
+            pay.setAmount(dto.getAmount());
+            pay.setLawyer(dto.getLawyer());
             payRepository.save(pay);
             return Messenger.builder().message("SUCCESS").build();
         }

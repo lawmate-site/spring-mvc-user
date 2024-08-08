@@ -1,14 +1,13 @@
 package site.lawmate.user.service.impl;
 
 import com.siot.IamportRestClient.IamportClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.PremiumDto;
-import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.Premium;
 import site.lawmate.user.repository.PremiumRepository;
 import site.lawmate.user.service.PremiumService;
@@ -71,7 +70,7 @@ public class PremiumServiceImpl implements PremiumService {
             Premium premium = optionalPremium.get();
             premium.setPlan(premiumDto.getPlan());
             premium.setPrice(premiumDto.getPrice());
-            premium.setExpireDate(premiumDto.getExpireDate());
+            premium.setLawyer(premiumDto.getLawyer());
             premiumRepository.save(premium);
             return Messenger.builder().message("SUCCESS").build();
         }
@@ -108,6 +107,5 @@ public class PremiumServiceImpl implements PremiumService {
     @Override
     public Optional<PremiumDto> findByLawyer(String lawyer) {
         return premiumRepository.findByLawyer(lawyer)
-                .map(this::entityToDto);
-    }
+                .map(this::entityToDto);    }
 }

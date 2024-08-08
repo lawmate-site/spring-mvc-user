@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
-import site.lawmate.user.domain.model.Issue;
 import site.lawmate.user.service.IssueService;
 import site.lawmate.user.service.impl.IssueServiceImpl;
 

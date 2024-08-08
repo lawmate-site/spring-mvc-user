@@ -1,9 +1,9 @@
 package site.lawmate.user.service;
 
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.IssueDto;
 import site.lawmate.user.domain.model.Issue;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 

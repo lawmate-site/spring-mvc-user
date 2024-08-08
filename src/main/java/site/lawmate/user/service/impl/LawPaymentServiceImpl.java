@@ -2,6 +2,7 @@ package site.lawmate.user.service.impl;
 
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -12,13 +13,13 @@ import site.lawmate.user.domain.dto.LawPaymentDto;
 import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.model.LawPayment;
 import site.lawmate.user.domain.model.PaymentCallbackRequest;
+import site.lawmate.user.domain.vo.PaymentStatus;
 import site.lawmate.user.repository.LawPaymentRepository;
 import site.lawmate.user.service.LawPaymentService;
 
-import java.util.stream.Collectors;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,26 +34,44 @@ public class LawPaymentServiceImpl implements LawPaymentService {
         LawPayment payment = dtoToEntity(dto);
         LawPayment savedPayment = payRepository.save(payment);
         boolean exists = payRepository.existsById(savedPayment.getId());
+        if (exists) {
+            savedPayment.setStatus(PaymentStatus.OK);
+            payRepository.save(savedPayment);
+        }
         return Messenger.builder()
                 .message(exists ? "SUCCESS" : "FAILURE")
                 .build();
     }
 
+    @Transactional
     @Override
     public Messenger delete(Long id) {
-        payRepository.existsById(id);
-        return Messenger.builder()
-                .message(payRepository.existsById(id) ? "FAILURE" : "SUCCESS")
-                .build();
+        Optional<LawPayment> payment = payRepository.findById(id);
+        if (payment.isPresent()) {
+            payRepository.deleteById(id);
+            return Messenger
+                    .builder()
+                    .message("SUCCESS")
+                    .build();
+        } else {
+        throw new EntityNotFoundException("Payment not found with id: " + id);
+        }
     }
-
     @Override
     public Messenger update(LawPaymentDto lawPaymentDto) {
-        if (payRepository.existsById(lawPaymentDto.getId())) {
-            LawPayment lawPayment = dtoToEntity(lawPaymentDto);
-            payRepository.save(lawPayment);
+        Optional<LawPayment> payment = payRepository.findById(lawPaymentDto.getId());
+        if (payment.isPresent()) {
+            LawPayment entity = payment.get();
+            LawPayment updated = entity.toBuilder()
+                    .premium(lawPaymentDto.getPremium())
+                    .lawyer(lawPaymentDto.getLawyer())
+                    .amount(lawPaymentDto.getAmount())
+                    .impUid(lawPaymentDto.getImpUid())
+                    .build();
+            Long updatedId = payRepository.save(updated).getId();
             return Messenger.builder()
-                    .message("SUCCESS")
+
+                    .message("SUCCESS ID is " + updatedId)
                     .build();
         } else {
             return Messenger.builder()
@@ -72,9 +91,9 @@ public class LawPaymentServiceImpl implements LawPaymentService {
     }
 
     @Override
-    public List<LawPaymentDto> findByLawyerId(String lawyerId) {
-        return payRepository.findByLawyerId(lawyerId)
-                .stream().toList();
+    public Optional<LawPaymentDto> findByLawyer(String lawyer) {
+        return payRepository.findByLawyer(lawyer)
+                .map(this::entityToDto);
     }
 
     @Override

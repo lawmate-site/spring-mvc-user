@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.LawPaymentDto;
-import site.lawmate.user.domain.dto.UserPaymentDto;
 import site.lawmate.user.domain.vo.PaymentStatus;
 import site.lawmate.user.service.LawPaymentService;
 
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/law/payment")
+@RequestMapping(path = "/law/payments")
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -86,7 +85,7 @@ public class LawPaymentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
-        log.info("premium 결제 delete id: {} ", id);
+        log.info("delete payment id: {} ", id);
         return ResponseEntity.ok(paymentService.delete(id));
     }
 
@@ -98,9 +97,9 @@ public class LawPaymentController {
         return ResponseEntity.ok(paymentService.findAll(PageRequest.of(page, size)));
     }
 
-    @GetMapping(path = "/lawyer/{id}")
-    public ResponseEntity<List<LawPaymentDto>> findByLawyerId(@PathVariable("id") String lawyerId) {
-        log.info("premium 결제 정보 조회 진입 유저 id: {} ", lawyerId);
-        return ResponseEntity.ok(paymentService.findByLawyerId(lawyerId));
+    @GetMapping(path = "/findLawyer/{lawyer}")
+    public ResponseEntity<Optional<LawPaymentDto>> findByLawyer(@PathVariable("lawyer") String lawyer) {
+        log.info("premium 결제 정보 조회 진입 유저 id: {} ", lawyer);
+        return ResponseEntity.ok(paymentService.findByLawyer(lawyer));
     }
 }
