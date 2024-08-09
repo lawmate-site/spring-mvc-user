@@ -27,7 +27,7 @@ public interface UserPaymentService extends CommandService<UserPaymentDto>, Quer
 
     void addUserPoints(Long id, Long amount);
 
-    Messenger subtractUserPoints(UserPaymentDto dto);
+    Messenger subtractUserPoints(UserPaymentDto dto, String impUid);
 
     Messenger confirmPayment(UserPaymentDto dto);
 

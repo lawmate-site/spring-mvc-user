@@ -58,9 +58,9 @@ public class UserPaymentController {
     }
 
     @PostMapping("/usePoint")
-    public ResponseEntity<Messenger> usePoint(@RequestBody UserPaymentDto dto) {
-        log.info("payment usePoint id: {} ", dto);
-        return ResponseEntity.ok(userPaymentService.subtractUserPoints(dto));
+    public ResponseEntity<Messenger> usePoint(@RequestBody UserPaymentDto dto, @RequestParam String impUid) {
+        log.info("payment usePoint id, impUid: {} {} ", dto, impUid);
+        return ResponseEntity.ok(userPaymentService.subtractUserPoints(dto, impUid));
     }
 
     @PostMapping("/cancel")

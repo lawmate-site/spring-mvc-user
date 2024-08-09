@@ -50,6 +50,7 @@ public class UserPaymentServiceImpl implements UserPaymentService {
                         Optional.ofNullable(payment.getAmount())
                                 .filter(amount -> amount > 0)
                                 .ifPresent(amount -> addUserPoints(buyerId, amount));
+//                        subtractUserPoints(dto, payment.getImpUid());
                     });
         }
         return Messenger.builder()
@@ -71,9 +72,10 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         }
         Messenger.builder().message("SUCCESS").build();
     }
+
     @Transactional
     @Override
-    public Messenger subtractUserPoints(UserPaymentDto dto) {
+    public Messenger subtractUserPoints(UserPaymentDto dto, String impUid) {
         Optional<User> optionalUser = userRepository.findById(dto.getId());
         if (optionalUser.isPresent()) {
             log.info(() -> String.format(
@@ -91,6 +93,7 @@ public class UserPaymentServiceImpl implements UserPaymentService {
                     .amount(dto.getAmount())
                     .status(PaymentStatus.PENDING)
                     .product(dto.getProduct())
+                    .impUid(impUid)
                     .build();
             UserPayment savedPayment = payRepository.save(payment);
             log.info("결제 정보 저장 성공: {}", savedPayment);
@@ -99,31 +102,36 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         return Messenger.builder().message("FAILURE: User not found.").build();
     }
 
-
     @Transactional
     @Override
     public Messenger cancelPayment(UserPaymentDto dto) throws IamportResponseException, IOException {
         IamportResponse<Payment> response = iamportClient.paymentByImpUid(dto.getImpUid());
         log.info("결제 취소 service 진입 성공 imp_uid={}", response.getResponse().getImpUid());
 
-        Optional<UserPayment> optionalUserPayment = Optional.ofNullable(payRepository.findByImpUid(response.getResponse().getImpUid()));
-        if (optionalUserPayment.isPresent()) {
-            UserPayment userPayment = optionalUserPayment.get();
-            userPayment.setStatus(PaymentStatus.CANCELED);
-            payRepository.save(userPayment);
+        List<UserPayment> userPayments = payRepository.findByImpUid(response.getResponse().getImpUid());
+        if (!userPayments.isEmpty()) {
+            userPayments.forEach(payment -> payment.setStatus(PaymentStatus.CANCELED));
+            payRepository.saveAll(userPayments);
+
             Optional<User> optionalUser = userRepository.findById(dto.getId());
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
+
+                UserPayment firstPayment = userPayments.get(0);
                 Long currentPoints = Optional.ofNullable(user.getPoint()).orElse(0L);
-                user.setPoint(currentPoints + userPayment.getAmount());
+                user.setPoint(currentPoints + firstPayment.getAmount());
                 userRepository.save(user);
+
                 log.info("포인트 환불 성공: {}", user.getPoint());
-                CancelData cancelData = createCancelData(response, Math.toIntExact(dto.getAmount()));
+
+                CancelData cancelData = createCancelData(response, Math.toIntExact(firstPayment.getAmount()));
                 IamportResponse<Payment> cancelResponse = iamportClient.cancelPaymentByImpUid(cancelData);
                 log.info("SUCCESS: 결제 취소 완료 {}", cancelResponse.getMessage());
+
                 return Messenger.builder().message("SUCCESS").build();
             }
         }
+
         return Messenger.builder().message("FAILURE: Payment imp_uid not found or mismatch").build();
     }
 

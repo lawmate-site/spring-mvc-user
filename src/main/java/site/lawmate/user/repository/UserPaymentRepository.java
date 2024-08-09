@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserPaymentRepository extends JpaRepository<UserPayment, Long> {
-    UserPayment findByImpUid(String impUid);
+    List<UserPayment> findByImpUid(String impUid);
 
     @Query("SELECT p FROM user_payments p WHERE p.buyer.id = :buyerId")
     List<UserPayment> findByBuyerId(Long buyerId);
