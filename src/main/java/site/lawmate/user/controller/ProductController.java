@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,9 @@ import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.ProductDto;
 import site.lawmate.user.service.ProductService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(path = "/product")
 @Slf4j
@@ -31,19 +30,34 @@ public class ProductController {
 
     @PostMapping("/save")
     public ResponseEntity<Messenger> saveProduct(@RequestBody ProductDto dto) {
-        log.info("Parameters received through controller" + dto);
+        log.info("product save 파라미터: {}", dto);
         return ResponseEntity.ok(productService.save(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ProductDto>> findById(@RequestParam("id") Long id) {
-        log.info("Parameter information of findById: " + id);
+    public ResponseEntity<Optional<ProductDto>> findById(@PathVariable("id") Long id) {
+        log.info("product 정보 조회 진입 id: {} ", id);
         return ResponseEntity.ok(productService.findById(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductDto>> findAll(Long id) throws SQLException {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<ProductDto>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        log.info("product 전체 조회 진입 page: {} size: {}", page, size);
+        return ResponseEntity.ok(productService.findAll(PageRequest.of(page, size)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Messenger> update(@RequestBody ProductDto dto) {
+        log.info("update product 진입 성공: {} ", dto.toString());
+        return ResponseEntity.ok(productService.update(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Messenger> delete(@PathVariable("id") Long id) {
+        log.info("delete product id: {} ", id);
+        return ResponseEntity.ok(productService.delete(id));
     }
 
 }

@@ -4,19 +4,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.lawmate.user.component.Messenger;
 import site.lawmate.user.domain.dto.QuestionDto;
-import site.lawmate.user.domain.dto.UserDto;
 import site.lawmate.user.service.QuestionService;
-import site.lawmate.user.service.impl.QuestionServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/questions")
@@ -31,13 +29,15 @@ public class QuestionController {
     @SuppressWarnings("static-access")
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody QuestionDto dto) throws SQLException {
-        log.info("Parameters received through controller: " + dto);
+        log.info("question save 파라미터: {} ", dto);
         return ResponseEntity.ok(service.save(dto));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<QuestionDto>> findAll() throws SQLException {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<QuestionDto>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "30") int size) {
+        return ResponseEntity.ok(service.findAll(PageRequest.of(page, size)));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -46,7 +46,7 @@ public class QuestionController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Messenger> update(@RequestBody QuestionDto dto){
+    public ResponseEntity<Messenger> update(@RequestBody QuestionDto dto) {
         return ResponseEntity.ok(service.update(dto));
     }
 

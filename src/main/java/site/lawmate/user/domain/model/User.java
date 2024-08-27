@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.enums.Role;
+import site.lawmate.user.domain.vo.Registration;
+import site.lawmate.user.domain.vo.Role;
 
 import java.util.List;
 
@@ -15,13 +16,11 @@ import java.util.List;
 @Getter
 @Builder(toBuilder = true)
 @ToString(exclude = {"id"})
+@Setter
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    private String username;
 
     @NotNull
     private String email;
@@ -29,47 +28,43 @@ public class User extends BaseEntity {
     @NotNull
     private String name;
 
+    private String password;
+
     @NotNull
-    private String picture;
+    private String profile;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
-
-    @Builder
-    public User(String name, String username, String email, String picture, Role role) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.picture = picture;
-        this.role = role;
-    }
-
-    public User update(String name, String picture) {
-        this.name = name;
-        this.picture = picture;
-        return this;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
-    }
-
     private String phone;
     private String age;
     private String gender;
-    private String token;
-    private Long point;
+    private Long point = 0L;
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Enumerated(EnumType.STRING)
+    private Registration registration;
+
+    @Builder
+    public User(String name, String email, String profile, Registration registration, Role role) {
+        this.name = name;
+        this.email = email;
+        this.profile = profile;
+        this.registration = registration;
+        this.role = role;
+    }
+
+    public User update(String name, String profile) {
+        this.name = name;
+        this.profile = profile;
+        return this;
+    }
+
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserPayment> payments;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Issue> issues;
-
-//    private String password;
-
 }

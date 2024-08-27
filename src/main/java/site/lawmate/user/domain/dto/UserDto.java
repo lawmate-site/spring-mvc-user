@@ -1,31 +1,37 @@
 package site.lawmate.user.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
-import site.lawmate.user.enums.Role;
+import site.lawmate.user.domain.vo.Role;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
 @Data
 @Builder
+@Setter
 public class UserDto {
     private Long id;
-    private String username;
     private String email;
     private String name;
-    private String picture;
+    private String password;
+    private String profile;
     private Role role;
     private String phone;
     private String age;
     private String gender;
     private String regDate;
     private String modDate;
-    private String token;
-    private Long point;
+    private List<Role> roles;
+    private Long point = 0L;
+    private String registration;
 
-//    private String password;
+    public UserDto(Long id, String email, String name) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+    }
+
 }

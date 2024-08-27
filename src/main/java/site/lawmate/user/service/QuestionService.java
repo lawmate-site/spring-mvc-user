@@ -29,4 +29,5 @@ public interface QuestionService extends CommandService<QuestionDto>, QueryServi
     Messenger update(QuestionDto dto);
 
     List<QuestionDto> findByTitleAndContent(String keyword);
+
 }
